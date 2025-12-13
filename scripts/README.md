@@ -31,13 +31,29 @@ python scripts/md_to_pptx.py slides/lecture_60min.md output/min_presentation.ppt
 - ✅ Bold, italic, inline code
 - ✅ Title slides (med `<!-- _class: lead -->`)
 - ✅ 16:9 aspect ratio
+- ✅ **Bilder konverteras till placeholder-text** `[ Plats för bild: xxx ]` i ljusgrå, italic
 
 ### Limitationer
 
 - Mermaid-diagram konverteras inte (PowerPoint har inte stöd)
 - Komplexa CSS-styles från MARP översätts till närmaste PowerPoint-ekvivalent
-- Bilder måste läggas till manuellt i PowerPoint efter konvertering
+- Bilder konverteras till placeholder-text - lägg till bilder manuellt i PowerPoint
 - Tables stöds inte ännu
+
+### Bilder
+
+Markdown-bilder (`![alt text](path/to/image.png)`) konverteras automatiskt till placeholder-text:
+
+```markdown
+![QR Code](slides/qrcode.png)
+```
+
+Blir i PowerPoint:
+```
+[ Plats för bild: QR Code ]
+```
+
+Formatet är ljusgrå, italic text så du ser var bilderna ska läggas in.
 
 ### Exempel
 

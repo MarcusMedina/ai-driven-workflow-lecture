@@ -93,8 +93,20 @@ class MarpToPptx:
             'is_italic': False,
             'is_code': False,
             'is_list': False,
-            'list_level': 0
+            'list_level': 0,
+            'is_image_placeholder': False
         }
+
+        # Hantera bilder - konvertera till placeholder
+        # Syntax: ![alt text](image_path) eller ![](image_path)
+        image_match = re.search(r'!\[([^\]]*)\]\(([^)]+)\)', line)
+        if image_match:
+            alt_text = image_match.group(1)
+            image_path = image_match.group(2)
+            # Använd alt text om det finns, annars bildnamnet
+            placeholder_text = alt_text if alt_text else image_path.split('/')[-1]
+            line = re.sub(r'!\[([^\]]*)\]\(([^)]+)\)', f'[ Plats för bild: {placeholder_text} ]', line)
+            formats['is_image_placeholder'] = True
 
         # Headers
         if line.startswith('# '):
@@ -265,6 +277,11 @@ class MarpToPptx:
             elif formats['is_h3']:
                 p.font.size = Pt(28)
                 p.font.color.rgb = self.h2_color
+            elif formats['is_image_placeholder']:
+                # Image placeholder i italic och ljusare färg
+                p.font.size = Pt(18)
+                p.font.color.rgb = RGBColor(180, 180, 180)  # Ljusgrå
+                p.font.italic = True
             elif formats['is_code']:
                 p.font.size = Pt(18)
                 p.font.name = 'Consolas'
