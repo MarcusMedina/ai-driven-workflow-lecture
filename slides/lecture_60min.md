@@ -614,21 +614,60 @@ _15 minuter_
 
 **Slice: Filtrera todos efter status**
 
-Vi kör hela loopen live:
+Vi kör hela loopen live - ALLA 7 stegen:
 
-1. ~~Förtydliga~~ (redan gjort: "filtrera todos")
-2. ~~Backlog~~ (detta ÄR en slice)
-3. Arkitektur (3 alternativ → välj)
-4. TDD - tester först
-5. Implementation
-6. Manuell test
-7. Refaktorera & commit
+1. Förtydliga & Spec
+2. Backlog & Vertical Slices
+3. Arkitektur
+4. TDD - Tester + Implementation
+5. Manuell test
+6. Refaktorera
+7. Commit
 
 **Ni ser PROCESSEN, inte magin.**
 
 ---
 
 ## Demo-flöde (följ med!)
+
+**Steg 1: Förtydliga & Spec** (1 min)
+
+```
+Problem: Användare vill filtrera todos efter status
+Input: Lista av todos + status-sträng ("done", "pending")
+Output: Filtrerad lista med matchande todos
+Edge cases:
+  - Tom lista → returnera tom lista
+  - Null input → returnera tom lista
+  - Case-insensitive ("Done" = "done")
+```
+
+→ Tydligt. Kan förklara på 1 minut. ✅
+
+---
+
+## Demo (forts.)
+
+**Steg 2: Backlog & Vertical Slices** (2 min)
+
+```
+Prompt: "Bryt ner TodoFilter i vertical slices.
+
+VIKTIGT: Vi planerar nu, inget kodande än.
+
+Varje slice = komplett user journey, deploybar, ger värde."
+```
+
+→ AI föreslår:
+1. **FilterByStatus** (viktigast - dagens demo!)
+2. FilterByDateAfter
+3. FilterByTitleContains
+
+→ Jag väljer slice 1. Resten = backlog.
+
+---
+
+## Demo (forts.)
 
 **Steg 3: Arkitektur** (3 min)
 
