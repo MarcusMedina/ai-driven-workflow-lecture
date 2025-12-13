@@ -1,0 +1,22 @@
+{
+  "name": "todofilter-javascript-example",
+  "version": "1.0.0",
+  "description": "JavaScript example for AI-Driven Development Workflow",
+  "main": "todoFilter.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "keywords": [
+    "ai-driven-development",
+    "tdd",
+    "clean-code",
+    "testing"
+  ],
+  "author": "Marcus Ackre Medina",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

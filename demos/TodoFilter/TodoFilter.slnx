@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/TodoFilter/TodoFilter.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/TodoFilter.Tests/TodoFilter.Tests.csproj" />
+  </Folder>
+</Solution>

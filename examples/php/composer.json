@@ -1,0 +1,32 @@
+{
+    "name": "todofilter/php-example",
+    "description": "PHP example for AI-Driven Development Workflow",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marcus Ackre Medina",
+            "email": "marcus@campusmolndal.se"
+        }
+    ],
+    "require": {
+        "php": ">=8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "TodoFilter\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "TodoFilter\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test:coverage": "phpunit --coverage-html coverage"
+    }
+}
