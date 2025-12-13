@@ -92,3 +92,6 @@ coverage/
 *.temp
 *.bak
 *.cache
+
+# Generated files
+*.pptx
