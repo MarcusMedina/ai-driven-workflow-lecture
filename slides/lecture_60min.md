@@ -178,6 +178,12 @@ Men den förstärker också **dåliga**.
 
 ---
 
+>If you fail to plan, you plan to fail
+>
+> _- Taylor Swift_
+
+---
+
 <!-- _class: lead -->
 
 # 2. AI som juniorer
@@ -520,6 +526,9 @@ dotnet test
 
 **Magi? Nej. Struktur.** 🎯
 
+
+---
+
 **Sedan testar DU manuellt:**
 
 Varför manuellt när TDD funkar?
@@ -808,7 +817,7 @@ _8 minuter_
 - Värde: Användare ser produkter
 - Testbar: End-to-end test
 - Deploybar: Kan gå live
-- Säker: Inga PII, bara produktdata
+- Säker: Ingen känslig data, bara produktdata
 
 ---
 
@@ -879,9 +888,12 @@ _5 minuter_
 
 > **"AI föreslår. Jag bestämmer."**
 
+> **Jag är arkitekten**
+
+> **There is no spoon**
 ---
 
-## När ni bygger MVPer IDAG
+## När ni bygger MVPer framöver
 
 **Följ loopen:**
 
@@ -944,10 +956,6 @@ _(Allt gratis. Säkerhet & hållbarhet godkänd. 🔒)_
 
 ---
 
-<!-- _class: lead -->
-
-# Frågor?
-
 **Kom ihåg:**
 **Du äger koden. Du äger datan. Du äger värdet.**
 
@@ -957,7 +965,13 @@ _(Inte AI-plattformen. Aldrig AI-plattformen.)_
 
 <!-- _class: lead -->
 
-# Tack! 🎄
+# Frågor?
+
+---
+
+<!-- _class: lead -->
+
+# 🎄 Tack! 🎄
 
 Marcus Ackre Medina
 **marcus@campusmolndal.se**
@@ -965,7 +979,6 @@ Marcus Ackre Medina
 
 **God jul och lycka till med era MVPer!** ☃️
 
-**Stort tack till Oscar och Andrija för fantastiska föreläsningar!**
-_(Ni satte ribban högt - jag hoppas jag nådde upp.)_ 😊
+_(Oscar och Andrija satte ribban högt - jag hoppas jag nådde upp.)_ 🫣<br><br>
 
 ![qrkod](./lecture_qrcode.png)
