@@ -15,10 +15,12 @@
 - Begränsningar: [Inga externa libs, måste vara async, etc]
 
 ## Förfrågan
+VIKTIGT: Vi planerar nu, inget kodande än.
+
 Jag vill att du FÖRST förklarar hur du skulle strukturera lösningen.
 Diskutera olika alternativ och deras trade-offs.
 
-SEDAN implementera med TDD:
+SEDAN (när jag säger till) implementera med TDD:
 1. Skriv tester först (normala flödet + edge cases)
 2. Implementera funktionen
 3. Se till att alla tester är gröna
@@ -41,6 +43,8 @@ SEDAN implementera med TDD:
 ## 🧪 TDD-First Prompt
 
 ```
+NU KODAR VI (planeringen är klar).
+
 Implementera [FUNKTION/KLASS] med TDD-approach:
 
 **Steg 1: Tester först**
@@ -78,6 +82,9 @@ Lägg till:
 
 ```
 Jag behöver implementera [FEATURE].
+
+VIKTIGT: Vi planerar nu, inget kodande än.
+Bara brainstorming och arkitektur.
 
 Ge mig TRE olika arkitektoniska lösningar:
 
@@ -213,6 +220,9 @@ Föreslå också tester som skulle ha fångat denna bugg.
 
 ```
 Jag vill bygga [STORT FEATURE].
+
+VIKTIGT: Vi planerar nu, inget kodande än.
+Bara nedbrytning och prioritering.
 
 Hjälp mig bryta ner det till micro-MVPs:
 
@@ -376,6 +386,9 @@ Varje steg ska vara committable.
 ```
 Jag ska bygga [SYSTEM/FEATURE].
 
+VIKTIGT: Vi planerar nu, inget kodande än.
+Bara arkitektur-diskussion och nedbrytning.
+
 Låt oss ha en arkitektur-dialog:
 
 1. Jag beskriver vad jag vill uppnå: [beskriv]
@@ -384,7 +397,7 @@ Låt oss ha en arkitektur-dialog:
 4. Vi diskuterar trade-offs
 5. Jag väljer approach
 6. Du bryter ner i micro-MVPs
-7. Vi börjar implementera första steget
+7. Vi börjar implementera första steget (då säger jag "NU KODAR VI")
 
 Börja med att ställa dina frågor.
 ```

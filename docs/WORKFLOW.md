@@ -18,26 +18,186 @@ Det här är inte "ännu ett verktyg att lära sig". Det här är **hur man tän
 ## 🔄 The Dev Loop (översikt)
 
 ```
-    1. Förtydliga
+    1. Förtydliga (DU - 2 min)
          ↓
-    2. Minimispec
+    2. Backlog & Vertical Slices (AI hjälper - 3 min)
          ↓
-    3. Intent Prompting
+    3. Arkitektur (AI föreslår, DU väljer - 3 min)
          ↓
-    4. AI som arkitekt
+    4. TDD - Tester först (AI skriver - 5 min)
          ↓
-    5. Små kodblock (TDD)
+    5. Implementation (AI kodar - 5 min)
          ↓
-    6. Testa/Debugga
+    6. Manuell test (DU testar - 3 min)
          ↓
-    7. Refaktorera + Commit
+    7. Refaktorera + Commit (AI granskar, DU beslutar - 5 min)
          ↓
-    (Nästa feature/steg)
+    (Nästa vertical slice)
 ```
 
-Varje iteration tar **5-15 minuter**. Inte timmar. Inte dagar.
+**Total tid per slice: ~25 minuter**
+
+Varje iteration levererar **värde** (en komplett user journey).
 
 **Små steg. Snabba loopar. Verifierad kod.**
+
+---
+
+## 🎯 De 7 stegen - med promptar
+
+### Steg 1: Förtydliga & Spec (DU)
+**Tid: ~2 minuter**
+
+Du gör detta SJÄLV innan AI. Skriv ner:
+```
+Problem: [EN mening - vad ska lösas?]
+Input: [Vad kommer in?]
+Output: [Vad ska ut?]
+Edge cases: [Tom input? Null? Ogiltiga värden?]
+```
+
+**Ingen AI här.** Du måste förstå problemet först.
+
+---
+
+### Steg 2: Backlog & Vertical Slices (AI hjälper)
+**Tid: ~3 minuter**
+
+**Prompt:**
+```
+Jag vill bygga [FEATURE/SYSTEM].
+
+VIKTIGT: Vi planerar nu, inget kodande än.
+Bara brainstorming och nedbrytning.
+
+Bryt ner i vertical slices där varje slice:
+- Är en KOMPLETT user journey (end-to-end)
+- Ger värde separat
+- Kan byggas på 15-25 minuter
+- Kan testas självständigt
+
+Ge mig de 3 viktigaste slicesen först, prioriterade efter värde.
+```
+
+**AI ger förslag. DU väljer vilka slices och i vilken ordning.**
+
+---
+
+### Steg 3: Arkitektur (AI föreslår, DU väljer)
+**Tid: ~3 minuter**
+
+**Prompt:**
+```
+För denna vertical slice: [BESKRIV SLICE]
+
+VIKTIGT: Vi planerar nu, inget kodande än.
+Bara arkitektur och trade-offs.
+
+Ge mig TRE alternativ:
+1. Enklast möjliga (minimal komplexitet)
+2. Balanserad (production-ready)
+3. Enterprise-nivå (fullt utbyggd)
+
+För varje alternativ, förklara:
+- Säkerhet
+- Performance
+- Maintainbarhet
+- Trade-offs
+
+Rekommendera vilket som passar bäst och VARFÖR.
+```
+
+**AI producerar flera lösningar - du väljer.**
+
+---
+
+### Steg 4: TDD - Tester först (AI skriver)
+**Tid: ~5 minuter**
+
+**Prompt:**
+```
+NU KODAR VI (planeringen är klar).
+
+Vi börjar med TDD för [FUNKTION/FEATURE].
+
+Steg 1: Skriv BARA tester (inget annat)
+- Normala flödet
+- Edge case 1: [tom lista]
+- Edge case 2: [null-värden]
+- Edge case 3: [ogiltiga värden]
+
+Ge mig testerna så jag kan köra dem.
+De ska vara RÖDA (failande) eftersom vi inte implementerat än.
+```
+
+**Kör testerna. De ska faila (röda). Det är FÖRVÄNTAT.**
+
+---
+
+### Steg 5: Implementation (AI kodar)
+**Tid: ~5 minuter**
+
+**Prompt:**
+```
+NU KODAR VI implementation.
+
+Implementera [FUNKTION] så att alla tester blir gröna.
+
+Krav:
+- SRP (en metod = en uppgift)
+- DRY (ingen upprepad logik)
+- SoC (tydliga ansvarsområden)
+- KISS (så enkelt som möjligt)
+
+Skriv koden, förklara varför du löste det så.
+```
+
+**Kör testerna. De ska bli gröna. Annars debugga.**
+
+---
+
+### Steg 6: Manuell test (DU testar)
+**Tid: ~3 minuter**
+
+Nu testar DU manuellt:
+- Kör programmet end-to-end
+- Testa UX (känns det rätt?)
+- Testa integration (funkar det med andra delar?)
+- Performance (är det snabbt nog?)
+
+**Unit-tester täcker logik. Manuella tester täcker UX och integration.**
+
+---
+
+### Steg 7: Refaktorera & Commit (AI granskar, DU beslutar)
+**Tid: ~5 minuter**
+
+**Prompt:**
+```
+Granska denna kod:
+
+[KLISTRA IN KOD]
+
+Checklista:
+- [ ] Tester (täcker de edge cases?)
+- [ ] Läsbarhet (självförklarande namn?)
+- [ ] Struktur (följer SRP, DRY, SoC, KISS?)
+- [ ] Förstår nästa person koden?
+- [ ] Säkerhet (SQL injection, XSS, etc?)
+
+Ge konkreta förbättringsförslag.
+```
+
+**AI föreslår. DU beslutar. Sen commit när alla tester är gröna.**
+
+Commit message:
+```
+[VAD] - [VARFÖR]
+
+✅ Add TodoFilter with case-insensitive matching - Users expect search regardless of case
+```
+
+**Sen går du till nästa vertical slice.**
 
 ---
 
