@@ -24,18 +24,18 @@ Det här är inte "ännu ett verktyg att lära sig". Det här är **hur man tän
          ↓
     3. Arkitektur (AI föreslår, DU väljer - 3 min)
          ↓
-    4. TDD - Tester först (AI skriver - 5 min)
+    4. TDD - Tester + Implementation (AI kodar båda - 5 min)
          ↓
-    5. Implementation (AI kodar - 5 min)
+    5. Manuell test (DU testar - 3 min)
          ↓
-    6. Manuell test (DU testar - 3 min)
+    6. Refaktorera (AI granskar, DU beslutar - 3 min)
          ↓
-    7. Refaktorera + Commit (AI granskar, DU beslutar - 5 min)
+    7. Commit (DU commitar - 2 min)
          ↓
     (Nästa vertical slice)
 ```
 
-**Total tid per slice: ~25 minuter**
+**Total tid per slice: ~20 minuter**
 
 Varje iteration levererar **värde** (en komplett user journey).
 
@@ -113,52 +113,39 @@ Rekommendera baserat på: [ditt scenario - t.ex. "litet team, MVP-fas, datainteg
 
 ---
 
-### Steg 4: TDD - Tester först (AI skriver)
+### Steg 4: TDD - Tester + Implementation (AI kodar)
 **Tid: ~5 minuter**
 
 **Prompt:**
 ```
 NU KODAR VI (planeringen är klar).
 
-Vi börjar med TDD för [FUNKTION/FEATURE].
+Implementera [FUNKTION/FEATURE] med TDD.
 
-Steg 1: Skriv BARA tester (inget annat)
-- Normala flödet
+Skriv tester + implementation i ett svep:
+
+Tester för [FUNKTION]:
+- Normala flödet: [beskriv]
 - Edge case 1: [tom lista]
 - Edge case 2: [null-värden]
 - Edge case 3: [ogiltiga värden]
 
-Ge mig testerna så jag kan köra dem.
-De ska vara RÖDA (failande) eftersom vi inte implementerat än.
-```
-
-**Kör testerna. De ska faila (röda). Det är FÖRVÄNTAT.**
-
----
-
-### Steg 5: Implementation (AI kodar)
-**Tid: ~5 minuter**
-
-**Prompt:**
-```
-NU KODAR VI implementation.
-
-Implementera [FUNKTION] så att alla tester blir gröna.
+Skriv testerna OCH implementationen. Alla tester ska bli gröna.
 
 Krav:
 - SRP (en metod = en uppgift)
 - DRY (ingen upprepad logik)
 - SoC (tydliga ansvarsområden)
 - KISS (så enkelt som möjligt)
-
-Skriv koden, förklara varför du löste det så.
 ```
+
+**OBS:** Vi hoppar över red-fasen för enkelhetens skull. AI skriver både tester och implementation direkt.
 
 **Kör testerna. De ska bli gröna. Annars debugga.**
 
 ---
 
-### Steg 6: Manuell test (DU testar)
+### Steg 5: Manuell test (DU testar)
 **Tid: ~3 minuter**
 
 Nu testar DU manuellt:
@@ -171,8 +158,8 @@ Nu testar DU manuellt:
 
 ---
 
-### Steg 7: Refaktorera & Commit (AI granskar, DU beslutar)
-**Tid: ~5 minuter**
+### Steg 6: Refaktorera (AI granskar, DU beslutar)
+**Tid: ~3 minuter**
 
 **Prompt:**
 ```
@@ -190,7 +177,12 @@ Checklista:
 Ge konkreta förbättringsförslag.
 ```
 
-**AI föreslår. DU beslutar. Sen commit när alla tester är gröna.**
+**AI föreslår. DU beslutar. Refaktorera. Kör testerna igen - de ska förbli gröna.**
+
+---
+
+### Steg 7: Commit (DU commitar)
+**Tid: ~2 minuter**
 
 Commit message:
 ```

@@ -40,40 +40,32 @@ SEDAN (när jag säger till) implementera med TDD:
 
 ---
 
-## 🧪 TDD-First Prompt
+## 🧪 TDD Prompt (Tester + Implementation)
 
 ```
 NU KODAR VI (planeringen är klar).
 
-Implementera [FUNKTION/KLASS] med TDD-approach:
+Implementera [FUNKTION/KLASS] med TDD.
 
-**Steg 1: Tester först**
-Skriv tester för:
+Skriv tester + implementation i ett svep:
+
+**Tester för [FUNKTION]:**
 - Normala flödet: [beskriv förväntat beteende]
 - Edge case 1: [tom input, null, etc]
 - Edge case 2: [stora dataset, specialtecken, etc]
 - Error case: [vad ska hända vid fel?]
 
-**Steg 2: Implementation**
+**Implementation:**
 Implementera funktionen så att alla tester blir gröna.
 Fokusera på:
 - En metod = en uppgift (SRP)
 - Självförklarande namn
 - Minimal komplexitet (KISS)
+- Ingen upprepad logik (DRY)
 
-**Steg 3: Refaktorering**
-Granska koden:
-- Följer den SRP? (En uppgift per metod)
-- Är namnen självförklarande?
-- Finns upprepad logik som kan brytas ut? (DRY)
-- Är ansvaren tydligt separerade? (SoC)
+Skriv testerna OCH implementationen. Alla tester ska bli gröna.
 
-**Steg 4: Dokumentation**
-Lägg till:
-- XML-kommentarer (C#/Java) eller docstrings (Python)
-- Förklara VARFÖR, inte VAD
-- Dokumentera edge cases som hanteras
-- Eventuella exceptions
+**OBS:** Vi hoppar över red-fasen - skriv båda delarna direkt för enkelhetens skull.
 ```
 
 ---

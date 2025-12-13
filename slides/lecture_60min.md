@@ -73,8 +73,9 @@ YH Campus Mölndal
 
 - Programmeringslärare @ Campus Mölndal
 - 25+ år som systemutvecklare
+- Började med en ZX-81
 - Älskar ren kod, TDD, och att bygga rätt från början
-- Fortfarande inte sur på AI (än) 😄
+- Gillar Star Wars, Skräckfilmer och sliskiga Hallmark julfilmer
 
 **Idag pratar vi inte om verktyg.**
 **Vi pratar om hur ni använder det ni lärde er igår.**
@@ -123,6 +124,7 @@ Ni har kört hårt hela helgen:
 
 > **Det är workflow, inte verktyg, som avgör hur långt du kommer.**
 
+Lovable är bra. V0 är bra. <br>
 Cursor är bra. Claude är bra. ChatGPT är bra.
 
 ---
@@ -186,6 +188,9 @@ _8 minuter_
 
 ---
 
+![Architect](./architect-the-matrix.jpg)
+
+---
 ## Mindset-skiftet
 
 <div class="columns">
@@ -288,16 +293,18 @@ _12 minuter_
     ↓
 3. Arkitektur (AI föreslår, DU väljer - 3 min)
     ↓
-4. TDD - Tester först (AI skriver - 5 min)
+4. TDD - Tester + Implementation (AI skriver båda - 5 min)
     ↓
-5. Implementation (AI kodar - 5 min)
+5. Manuell test (DU testar - 3 min)
     ↓
-6. Manuell test (DU testar - 3 min)
+6. Refaktorera (AI granskar, DU beslutar - 3 min)
     ↓
-7. Refaktorera & Commit (AI granskar, DU beslutar - 5 min)
+7. Commit (DU commitar - 2 min)
 ```
 
-**Total: ~25 min per slice. Repeterbart.**
+**Total: ~20 min per slice. Repeterbart.**
+
+**OBS:** Vi hoppar över red-fasen - AI skriver tester + kod direkt
 
 ---
 
@@ -448,16 +455,16 @@ Pro: Säker, maintainbar. Con: Lite mer kod
 
 ---
 
-## Steg 4: TDD - Tester först
+## Steg 4: TDD - En prompt för allt
 
 **AI skriver (NU börjar kodningen - planeringen är klar):**
 
 ```
-Prompt: "Implementera slice 1 (Skapa todo) med TDD.
+Prompt: "Implementera slice 1 (Skapa todo) med TDD enligt approach 2.
 
 NU KODAR VI (planeringen är klar).
 
-STEG 1: Skriv testerna FÖRST för approach 2:
+Skriv tester + implementation i ett svep:
 
 Tester för CreateTodo():
 - Normal case: Giltig titel → todo skapas
@@ -467,14 +474,17 @@ Tester för CreateTodo():
 - Edge: Whitespace runt titel → trimmas
 - Säkerhet: XSS-attempt i titel → saniteras
 
-Skriv testerna. Kör dem (de ska vara röda)."
+Skriv testerna OCH implementationen. Alla tester ska bli gröna."
 ```
+
+**OBS:** Vi hoppar över red-fasen - AI skriver båda delarna direkt.
 
 ---
 
-## Steg 4 (forts.) - AI skriver tester
+## Steg 4 (forts.) - AI levererar
 
 ```csharp
+// AI skriver tester
 [Fact]
 public void CreateTodo_WithValidTitle_CreatesTodo()
 {
@@ -498,29 +508,19 @@ public void CreateTodo_WithEmptyTitle_ThrowsException()
 
 ---
 
-## Steg 5: Implementation
+## Steg 5: Manuell testning
 
-**AI skriver (testerna finns nu):**
+**DU kör testerna:**
 
-```
-Prompt: "Nu implementera CreateTodo() så alla tester blir gröna.
-
-Följ approach 2:
-- Validera input
-- Trimma whitespace
-- Sanitera XSS (basic)
-- Skapa todo-objektet"
+```bash
+dotnet test
 ```
 
-AI skriver kod → **DU kör:** `dotnet test` → ✅ **6 passed**
+→ ✅ **6 passed** (AI skrev både tester OCH implementation)
 
 **Magi? Nej. Struktur.** 🎯
 
----
-
-## Steg 6: Manuell testning
-
-**DU testar (testerna är gröna, men...):**
+**Sedan testar DU manuellt:**
 
 Varför manuellt när TDD funkar?
 
@@ -536,13 +536,13 @@ Varför manuellt när TDD funkar?
 # → Funkar undo?
 ```
 
-**Om fail:** Tillbaka till steg 4 eller 5. Fixa. Repetera.
+**Om fail:** Tillbaka till steg 4. Fixa. Repetera.
 
 ---
 
-## Steg 7: Refaktorera & Commit
+## Steg 6: Refaktorera (Blå fas)
 
-**DU + AI:**
+**När allt funkar → refaktorera:**
 
 ```
 Prompt: "Granska CreateTodo() mot:
@@ -560,9 +560,9 @@ AI föreslår → DU beslutar → Refaktorera → **Kör tester igen** → ✅ F
 
 ---
 
-## Steg 7 (forts.) - Commit
+## Steg 7: Commit
 
-**När allt är grönt:**
+**När allt är grönt och refactored:**
 
 ```bash
 git add .
@@ -664,31 +664,22 @@ Prompt: "Implementera FilterByStatus med TDD.
 
 NU KODAR VI (planeringen är klar).
 
-Tester först:
+Skriv tester + implementation i ett svep:
 - Normal case: Filter 'done' → returns done todos
 - Edge: Tom lista → returnerar tom lista
 - Edge: Null input → returnerar tom lista
 - Edge: Case-insensitive ('Done' = 'done')
 
-Skriv testerna, kör dem (röda)."
+Skriv testerna OCH implementationen. Alla tester ska bli gröna."
 ```
 
-→ AI skriver 4 tester → Jag kör → ❌ RED
+→ AI skriver både tester OCH kod → Jag kör → ✅ GREEN direkt
 
 ---
 
 ## Demo (forts.)
 
-**Steg 5: Implementation** (3 min)
-
-```
-Prompt: "Nu implementera FilterByStatus()
-så alla tester blir gröna."
-```
-
-→ AI skriver kod → Jag kör → ✅ GREEN
-
-**Steg 6: Manuell test** (2 min)
+**Steg 5: Manuell test** (2 min)
 
 ```bash
 dotnet run
@@ -700,13 +691,16 @@ dotnet run
 
 ## Demo (forts.)
 
-**Steg 7: Refactorera & Commit** (2 min)
+**Steg 6: Refactorera** (1 min)
 
 ```
 Prompt: "Granska mot SRP, DRY, KISS, säkerhet."
 ```
 
 → AI: "Koden ser bra ut, inga förbättringar"
+
+**Steg 7: Commit** (1 min)
+
 → Jag commitar:
 
 ```bash
@@ -825,12 +819,14 @@ _5 minuter_
 1. **Förtydliga & Spec** - DU klargör (2 min)
 2. **Backlog & Slices** - AI hjälper planera, DU väljer värde (3 min)
 3. **Arkitektur** - AI föreslår approaches, DU väljer säkerhet (3 min)
-4. **TDD - Tester först** - AI skriver tester, DU kör (röda) (5 min)
-5. **Implementation** - AI kodar, DU kör (gröna) (5 min)
-6. **Manuell test** - DU verifierar end-to-end (3 min)
-7. **Refaktorera & Commit** - AI granskar, DU beslutar (5 min)
+4. **TDD - Tester + Implementation** - AI skriver båda, DU kör (gröna direkt) (5 min)
+5. **Manuell test** - DU verifierar end-to-end (3 min)
+6. **Refaktorera** - AI granskar, DU beslutar (3 min)
+7. **Commit** - DU commitar (2 min)
 
-**= ~25 min per slice. Repeterbart. Varje dag.**
+**= ~20 min per slice. Repeterbart. Varje dag.**
+
+**Vi hoppar över red-fasen** - praktiskt, inte dogmatiskt
 
 ---
 
