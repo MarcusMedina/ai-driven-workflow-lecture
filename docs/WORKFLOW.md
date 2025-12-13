@@ -74,7 +74,8 @@ Bryt ner i vertical slices där varje slice:
 - Är en KOMPLETT user journey (end-to-end)
 - Ger värde separat
 - Kan byggas på 15-25 minuter
-- Kan testas självständigt
+- Är testbar och deploybar
+- Respekterar dataintegritet
 
 Ge mig de 3 viktigaste slicesen först, prioriterade efter värde.
 ```
@@ -90,21 +91,22 @@ Ge mig de 3 viktigaste slicesen först, prioriterade efter värde.
 ```
 För denna vertical slice: [BESKRIV SLICE]
 
-VIKTIGT: Vi planerar nu, inget kodande än.
-Bara arkitektur och trade-offs.
+VIKTIGT: Vi planerar arkitektur nu, inget kodande än.
+Bara jämföra approaches.
 
-Ge mig TRE alternativ:
-1. Enklast möjliga (minimal komplexitet)
-2. Balanserad (production-ready)
-3. Enterprise-nivå (fullt utbyggd)
+Ge mig TRE arkitektur-approaches:
+1. Enklast möjliga (prototyp)
+2. Balanserad (production-ready, säker)
+3. Enterprise (fullt utbyggd)
 
-För varje alternativ, förklara:
-- Säkerhet
+För varje approach, förklara:
+- Komplexitet
+- Säkerhet (validering, sanitering)
 - Performance
 - Maintainbarhet
 - Trade-offs
 
-Rekommendera vilket som passar bäst och VARFÖR.
+Rekommendera baserat på: [ditt scenario - t.ex. "litet team, MVP-fas, dataintegritet viktigt"]
 ```
 
 **AI producerar flera lösningar - du väljer.**

@@ -81,38 +81,44 @@ Lägg till:
 ## 🏗️ Architecture Comparison Prompt
 
 ```
-Jag behöver implementera [FEATURE].
+För denna vertical slice: [BESKRIV SLICE/FEATURE]
 
-VIKTIGT: Vi planerar nu, inget kodande än.
-Bara brainstorming och arkitektur.
+VIKTIGT: Vi planerar arkitektur nu, inget kodande än.
+Bara jämföra approaches.
 
-Ge mig TRE olika arkitektoniska lösningar:
+Ge mig TRE arkitektur-approaches:
 
-1. **Enklast möjliga** (minimal komplexitet)
+1. **Enklast möjliga** (prototyp)
    - Hur ser koden ut?
+   - Komplexitet?
    - När är detta tillräckligt bra?
-   - Vilka begränsningar har den?
    - Trade-offs?
 
-2. **Balanserad** (production-ready)
+2. **Balanserad** (production-ready, säker)
    - Vilka klasser/moduler behövs?
    - Hur separeras ansvaren? (SoC)
+   - Säkerhet (validering, sanitering)?
    - Hur testar man det?
-   - Skalbarhet?
 
-3. **Enterprise-nivå** (fullt utbyggd)
+3. **Enterprise** (fullt utbyggd)
    - Vilka patterns används?
    - Hur skalar den?
    - Är det overkill för mitt use case?
    - Komplexitetskostnad?
 
-Rekommendera sedan vilken som passar mitt scenario bäst och VARFÖR.
+För varje approach, förklara:
+- Komplexitet
+- Säkerhet (validering, sanitering)
+- Performance
+- Maintainbarhet
+- Trade-offs
 
-**Mitt scenario:**
-- Projektstorlek: [liten/medel/stor]
-- Team: [solo/litet/stort]
-- Tidsbegränsning: [snabb prototype/produktionskod]
-- Skalningsbehov: [nu/framtid/aldrig]
+Rekommendera baserat på: [ditt scenario]
+
+**Exempel scenario:**
+- Projektstorlek: litet team
+- Fas: MVP-fas
+- Krav: dataintegritet viktigt, snabb time-to-market
 ```
 
 ---
@@ -216,38 +222,28 @@ Föreslå också tester som skulle ha fångat denna bugg.
 
 ---
 
-## 📊 Micro-MVP Prompt
+## 📊 Micro-MVP / Vertical Slices Prompt
 
 ```
-Jag vill bygga [STORT FEATURE].
+Jag vill bygga [STORT FEATURE/SYSTEM].
 
 VIKTIGT: Vi planerar nu, inget kodande än.
-Bara nedbrytning och prioritering.
+Bara brainstorming och nedbrytning.
 
-Hjälp mig bryta ner det till micro-MVPs:
+Bryt ner i vertical slices där varje slice:
+- Är en KOMPLETT user journey (end-to-end)
+- Ger värde separat
+- Kan byggas på 15-25 minuter
+- Är testbar och deploybar
+- Respekterar dataintegritet
 
-**Definition av micro-MVP:**
-- 1 funktion/feature
-- 1 tydligt resultat
-- Körbart på 5-10 minuter
-- Självständigt testbart
-- Ger värde (kan visas/demonstreras)
+Ge mig de 3 viktigaste slicesen först, prioriterade efter värde.
 
-**Ge mig:**
-1. **Första micro-MVP** (vad är MINSTA körbara steg?)
-   - Input/Output
-   - Definition of Done
-   - Edge cases
-
-2. **Andra micro-MVP** (vad bygger på det första?)
-   - Vad lägger detta till?
-   - Beroenden av steg 1
-   - Vad kan testas?
-
-3. **Tredje micro-MVP** (nästa lager)
-   - Hur expanderar detta funktionaliteten?
-   - Ny komplexitet som introduceras
-   - Integration med tidigare steg
+**För varje slice, beskriv:**
+- Input/Output
+- Definition of Done
+- Edge cases som måste hanteras
+- Säkerhetsaspekter (validering, sanitering)
 
 **Mitt feature:**
 [Beskriv stort feature här]
@@ -255,7 +251,11 @@ Hjälp mig bryta ner det till micro-MVPs:
 **Begränsningar:**
 [Tid, teknologi, kunskap, etc]
 
-Kom ihåg: Varje micro-MVP ska kunna commitas och vara användbart i sig!
+**Exempel:**
+Feature: Todo-hantering
+→ Slice 1: Skapa todo (Input → Validera → Spara → Visa)
+→ Slice 2: Visa todos (Hämta → Sortera → Rendera)
+→ Slice 3: Filtrera todos (Input filter → Applicera → Visa resultat)
 ```
 
 ---

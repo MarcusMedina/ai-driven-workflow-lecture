@@ -338,10 +338,11 @@ Bara brainstorming och nedbrytning.
 Bryt ner i vertical slices där varje slice:
 - Är en KOMPLETT user journey (end-to-end)
 - Ger värde separat
+- Kan byggas på 15-25 minuter
 - Är testbar och deploybar
 - Respekterar dataintegritet
 
-Lista 3-5 slices, prioriterade efter värde."
+Ge mig de 3 viktigaste slicesen först, prioriterade efter värde."
 ```
 
 ---
@@ -409,6 +410,7 @@ Ge mig TRE arkitektur-approaches:
 För varje approach, förklara:
 - Komplexitet
 - Säkerhet (validering, sanitering)
+- Performance
 - Maintainbarhet
 - Trade-offs
 
@@ -633,13 +635,20 @@ Vi kör hela loopen live:
 ```
 Prompt till Claude Code:
 "Ge mig tre sätt att implementera TodoFilter.FilterByStatus():
-1. Enklast möjliga
-2. Balanserad (null-safe, case-insensitive)
-3. Enterprise (specification pattern)
+1. Enklast möjliga (prototyp)
+2. Balanserad (production-ready, säker)
+3. Enterprise (fullt utbyggd)
 
 VIKTIGT: Vi planerar arkitektur nu, inget kodande än.
 
-Förklara trade-offs. Rekommendera."
+För varje approach, förklara:
+- Komplexitet
+- Säkerhet (validering, sanitering)
+- Performance
+- Maintainbarhet
+- Trade-offs
+
+Rekommendera baserat på: litet team, MVP-fas."
 ```
 
 → Väljer approach 2 (balanserad)
