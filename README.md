@@ -112,3 +112,4 @@ AI-driven development, prompt engineering, clean code, TDD, software development
 ---
 
 **Kom ihåg:** Du är arkitekten. AI är bara byggnadsarbetarna.
+"# ai-driven-workflow-lecture" 
