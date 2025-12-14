@@ -26,13 +26,13 @@
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <InputText id="email" class="form-control" placeholder="admin@example.com"
-                                       @bind-Value="loginModel.Email" disabled="isLoading" />
+                                       @bind-Value="loginModel.Email" disabled="@isLoading" />
                         </div>
 
                         <div class="mb-3">
                             <label for="password" class="form-label">Lösenord</label>
                             <InputText id="password" type="password" class="form-control" placeholder="••••••••"
-                                      @bind-Value="loginModel.Password" disabled="isLoading" />
+                                      @bind-Value="loginModel.Password" disabled="@isLoading" />
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100" disabled="@isLoading">
