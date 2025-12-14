@@ -1,0 +1,107 @@
+@page "/login"
+@using MailingListManager.Services
+@using MailingListManager.Authentication
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthService AuthService
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h1 class="card-title text-center mb-4">Admin Inloggning</h1>
+
+                    @if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            @errorMessage
+                            <button type="button" class="btn-close" @onclick="@(() => errorMessage = "")"
+                                    aria-label="Close"></button>
+                        </div>
+                    }
+
+                    <EditForm Model="loginModel" OnValidSubmit="HandleLogin">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary class="text-danger" />
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <InputText id="email" class="form-control" placeholder="admin@example.com"
+                                       @bind-Value="loginModel.Email" />
+                            <ValidationMessage For="@(() => loginModel.Email)" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Lösenord</label>
+                            <InputText id="password" type="password" class="form-control" placeholder="••••••••"
+                                      @bind-Value="loginModel.Password" />
+                            <ValidationMessage For="@(() => loginModel.Password)" />
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100" disabled="isLoading">
+                            @if (isLoading)
+                            {
+                                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                                <span>Loggar in...</span>
+                            }
+                            else
+                            {
+                                <span>Logga in</span>
+                            }
+                        </button>
+                    </EditForm>
+
+                    <hr class="my-4" />
+                    <p class="text-muted small text-center">
+                        Demo credentials:<br />
+                        Email: admin@example.com<br />
+                        Lösenord: Admin123!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private LoginModel loginModel = new();
+    private string? errorMessage;
+    private bool isLoading;
+
+    private async Task HandleLogin()
+    {
+        isLoading = true;
+        errorMessage = null;
+
+        try
+        {
+            var result = await AuthService.LoginAsync(loginModel.Email, loginModel.Password);
+
+            if (result.Success)
+            {
+                // Uppdatera auth state
+                var authProvider = (CustomAuthStateProvider)AuthenticationStateProvider;
+                authProvider.NotifyUserAuthentication(result.Email!);
+
+                // Redirect to home
+                NavigationManager.NavigateTo("/", forceLoad: true);
+            }
+            else
+            {
+                errorMessage = result.Message;
+            }
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private class LoginModel
+    {
+        public string? Email { get; set; }
+        public string? Password { get; set; }
+    }
+}

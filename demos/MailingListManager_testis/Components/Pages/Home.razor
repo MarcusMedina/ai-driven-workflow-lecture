@@ -1,0 +1,21 @@
+﻿@page "/"
+@using Microsoft.AspNetCore.Components.Authorization
+
+<PageTitle>Home</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        <h1>Välkommen Admin! 👋</h1>
+        <p class="lead">Du är inloggad som <strong>@context.User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value</strong></p>
+        
+        <div class="alert alert-info" role="alert">
+            <strong>Slice 1 Complete!</strong> Admin Login är implementerat. 
+            Nästa slice: Lista prenumeranter 📋
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <h1>Mailing List Manager</h1>
+        <p class="lead">Du måste logga in för att komma åt systemet.</p>
+        <a href="/login" class="btn btn-primary">Gå till inloggning</a>
+    </NotAuthorized>
+</AuthorizeView>
