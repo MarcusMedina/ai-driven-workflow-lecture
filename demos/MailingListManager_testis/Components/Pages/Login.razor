@@ -23,24 +23,19 @@
                     }
 
                     <EditForm Model="loginModel" OnSubmit="HandleLogin">
-                        <DataAnnotationsValidator />
-                        <ValidationSummary class="text-danger" />
-
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
                             <InputText id="email" class="form-control" placeholder="admin@example.com"
-                                       @bind-Value="loginModel.Email" />
-                            <ValidationMessage For="@(() => loginModel.Email)" />
+                                       @bind-Value="loginModel.Email" disabled="isLoading" />
                         </div>
 
                         <div class="mb-3">
                             <label for="password" class="form-label">Lösenord</label>
                             <InputText id="password" type="password" class="form-control" placeholder="••••••••"
-                                      @bind-Value="loginModel.Password" />
-                            <ValidationMessage For="@(() => loginModel.Password)" />
+                                      @bind-Value="loginModel.Password" disabled="isLoading" />
                         </div>
 
-                        <button type="submit" class="btn btn-primary w-100" disabled="isLoading">
+                        <button type="submit" class="btn btn-primary w-100" disabled="@isLoading">
                             @if (isLoading)
                             {
                                 <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
@@ -68,10 +63,17 @@
 @code {
     private LoginModel loginModel = new();
     private string? errorMessage;
-    private bool isLoading;
+    private bool isLoading = false;
 
     private async Task HandleLogin()
     {
+        // Validera input
+        if (string.IsNullOrWhiteSpace(loginModel.Email) || string.IsNullOrWhiteSpace(loginModel.Password))
+        {
+            errorMessage = "Email och lösenord måste fyllas i";
+            return;
+        }
+
         isLoading = true;
         errorMessage = null;
 
@@ -85,16 +87,21 @@
                 var authProvider = (CustomAuthStateProvider)AuthenticationStateProvider;
                 authProvider.NotifyUserAuthentication(result.Email!);
 
+                // Vänta lite för att sessionen uppdateras
+                await Task.Delay(100);
+
                 // Redirect to home
-                NavigationManager.NavigateTo("/");
+                NavigationManager.NavigateTo("/", forceLoad: true);
             }
             else
             {
                 errorMessage = result.Message;
+                isLoading = false;
             }
         }
-        finally
+        catch (Exception ex)
         {
+            errorMessage = $"Ett fel uppstod: {ex.Message}";
             isLoading = false;
         }
     }
