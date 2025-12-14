@@ -9,21 +9,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+// Add Session
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromHours(1);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 // Authentication
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
 builder.Services.AddScoped<CustomAuthStateProvider>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddHttpContextAccessor();
-
-// Authentication middleware
-builder.Services.AddAuthentication()
-    .AddCookie("Cookies", options =>
-    {
-        options.LoginPath = "/login";
-        options.LogoutPath = "/logout";
-        options.AccessDeniedPath = "/access-denied";
-    });
-builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -37,9 +35,9 @@ if (!app.Environment.IsDevelopment())
 app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
 app.UseHttpsRedirection();
 
-// Authentication middleware
-app.UseAuthentication();
-app.UseAuthorization();
+// Add Session middleware
+app.UseSession();
+
 app.UseAntiforgery();
 
 app.MapStaticAssets();

@@ -1,17 +1,17 @@
 # ?? Vertical Slices - MailingListManager
 
-> **Projekt:** MailingListManager (Blazor, .NET 10)  
-> **Metod:** AI-Driven Development  
-> **Total tid:** ~85 minuter (5 slices × ~17 minuter var)  
+> **Projekt:** MailingListManager (Blazor, .NET 10)
+> **Metod:** AI-Driven Development
+> **Total tid:** ~85 minuter (5 slices ï¿½ ~17 minuter var)
 > **Prioritet:** 1 ? 2 ? 3 ? 4 ? 5
 
 ---
 
 ## ?? Produktvision
 
-**En mailista-hanterare där admin kan hantera prenumeranter säkert.**
+**En mailista-hanterare dï¿½r admin kan hantera prenumeranter sï¿½kert.**
 
-**Första vertical slice:** Admin kan logga in och hantera emaillistan.
+**Fï¿½rsta vertical slice:** Admin kan logga in och hantera emaillistan.
 
 ---
 
@@ -19,14 +19,14 @@
 
 ## **Detaljer**
 
-| Fält | Värde |
-|------|-------|
-| **User Story** | Som admin vill jag logga in säkert för att bara jag kan hantera listan |
-| **MVP** | Hårdkodad admin-användare (admin@example.com / Admin123!) |
-| **Scope** | Login-formulär + Cookie-auth + AuthenticationStateProvider |
-| **Värde** | ? Säkerhet - endast admin kommer åt systemet |
-| **Tid** | ~20 min |
-| **Prioritet** | ?? **MÅSTE** ha (blocker för resten) |
+| Fï¿½lt           | Vï¿½rde                                                                  |
+| -------------- | ---------------------------------------------------------------------- |
+| **User Story** | Som admin vill jag logga in sï¿½kert fï¿½r att bara jag kan hantera listan |
+| **MVP**        | Hï¿½rdkodad admin-anvï¿½ndare (admin@example.com / Admin123!)              |
+| **Scope**      | Login-formulï¿½r + Cookie-auth + AuthenticationStateProvider             |
+| **Vï¿½rde**      | ? Sï¿½kerhet - endast admin kommer ï¿½t systemet                           |
+| **Tid**        | ~20 min                                                                |
+| **Prioritet**  | ?? **Mï¿½STE** ha (blocker fï¿½r resten)                                   |
 
 ## **Acceptance Criteria**
 
@@ -34,18 +34,18 @@
 ? Admin kan logga in med admin@example.com / Admin123!
 ? Felaktiga uppgifter ? Felmeddelande visas
 ? Inloggad admin ser "Logga ut"-knapp
-? Utloggad användare omdirigeras till /login
+? Utloggad anvï¿½ndare omdirigeras till /login
 ? [Authorize] skyddar admin-sidor
-? Sessioner förvaras i cookies
+? Sessioner fï¿½rvaras i cookies
 ```
 
 ## **Edge Cases**
 
 ```
 ? Null/tomt email ? Valideringsfel
-? Null/tomt lösenord ? Valideringsfel
-? XSS i email-fält ? Saniteras automatiskt
-? SQL injection ? N/A (hårdkodade credentials)
+? Null/tomt lï¿½senord ? Valideringsfel
+? XSS i email-fï¿½lt ? Saniteras automatiskt
+? SQL injection ? N/A (hï¿½rdkodade credentials)
 ? Case-sensitivity ? admin@example.com (case-insensitive)
 ? Whitespace trim ? "  admin@example.com  " ? Ok
 ```
@@ -55,25 +55,25 @@
 ```
 ALTERNATIV 1 (REKOMMENDERAD): Cookie Authentication
 ?? ASP.NET Core Authentication middleware
-?? Hårdkodad admin i appsettings.json
+?? Hï¿½rdkodad admin i appsettings.json
 ?? AuthenticationStateProvider (Blazor)
 ?? [Authorize] attributes
-?? Komplexitet: ?/5 | Tid: 20 min | Säkerhet: ? Demo
+?? Komplexitet: ?/5 | Tid: 20 min | Sï¿½kerhet: ? Demo
 
 ALTERNATIV 2: ASP.NET Core Identity
 ?? EF Core Identity
 ?? Password hashing
 ?? User management DB
-?? Komplexitet: ????/5 | Tid: 120 min | Säkerhet: ? Produktion
+?? Komplexitet: ????/5 | Tid: 120 min | Sï¿½kerhet: ? Produktion
 
 ALTERNATIV 3: JWT Tokens
 ?? JWT generation vid login
 ?? Stateless token validation
 ?? Client-side storage
-?? Komplexitet: ???/5 | Tid: 60 min | Säkerhet: ? API-focused
+?? Komplexitet: ???/5 | Tid: 60 min | Sï¿½kerhet: ? API-focused
 ```
 
-**Val:** Alternativ 1 (Cookie auth) - snabbt, enkelt, tillräckligt för demo.
+**Val:** Alternativ 1 (Cookie auth) - snabbt, enkelt, tillrï¿½ckligt fï¿½r demo.
 
 ## **Tester (TDD)**
 
@@ -122,12 +122,12 @@ public void Login_WithXSSAttempt_IsSanitized()
   ?? GetAuthenticationStateAsync()
 
 ? Components/Pages/Login.razor
-  ?? Formulär med email + password
+  ?? Formulï¿½r med email + password
   ?? Submit-knapp ? AuthService.LoginAsync()
   ?? Felmeddelanden
 
 ? appsettings.json
-  ?? Hårdkodade credentials (demo-only)
+  ?? Hï¿½rdkodade credentials (demo-only)
 
 ? Program.cs
   ?? .AddAuthentication()
@@ -139,7 +139,7 @@ public void Login_WithXSSAttempt_IsSanitized()
   ?? @using Microsoft.AspNetCore.Components.Authorization
 
 ? Tester (xUnit)
-  ?? AuthService.Tests.cs (5 tester, alla gröna)
+  ?? AuthService.Tests.cs (5 tester, alla grï¿½na)
 ```
 
 ## **Deliverables**
@@ -154,7 +154,7 @@ public void Login_WithXSSAttempt_IsSanitized()
 ## **Definition of Done**
 
 ```
-? Alla 5 tester gröna
+? Alla 5 tester grï¿½na
 ? Manual test: Login funkar
 ? Code review: SRP, DRY, SoC, KISS
 ? Ingen hardcoded secrets i kod (bara config)
@@ -168,23 +168,23 @@ public void Login_WithXSSAttempt_IsSanitized()
 
 ## **Detaljer**
 
-| Fält | Värde |
-|------|-------|
+| Fï¿½lt           | Vï¿½rde                                                        |
+| -------------- | ------------------------------------------------------------ |
 | **User Story** | Som inloggad admin vill jag se alla prenumeranter i en lista |
-| **MVP** | Visa prenumeranter från databas |
-| **Scope** | EF Core + DbContext + Subscriber-modell + List-komponent |
-| **Värde** | ? Admin får översikt över sin mailista |
-| **Tid** | ~15 min |
-| **Prioritet** | ?? **BÖR** ha (efter Slice 1) |
-| **Dependency** | ?? Slice 1 (kräver auth) |
+| **MVP**        | Visa prenumeranter frï¿½n databas                              |
+| **Scope**      | EF Core + DbContext + Subscriber-modell + List-komponent     |
+| **Vï¿½rde**      | ? Admin fï¿½r ï¿½versikt ï¿½ver sin mailista                       |
+| **Tid**        | ~15 min                                                      |
+| **Prioritet**  | ?? **Bï¿½R** ha (efter Slice 1)                                |
+| **Dependency** | ?? Slice 1 (krï¿½ver auth)                                     |
 
 ## **Acceptance Criteria**
 
 ```
 ? Endast inloggad admin kan se listan
 ? Lista visar alla prenumeranter (email)
-? Tom lista ? "Inga prenumeranter ännu" visas
-? Data från databas (inte hårdkodad)
+? Tom lista ? "Inga prenumeranter ï¿½nnu" visas
+? Data frï¿½n databas (inte hï¿½rdkodad)
 ? Sida laddar snabbt (<100ms)
 ? Lista uppdateras vid CRUD-operationer
 ```
@@ -192,17 +192,17 @@ public void Login_WithXSSAttempt_IsSanitized()
 ## **Edge Cases**
 
 ```
-? Tom databas ? "Inga prenumeranter ännu"
+? Tom databas ? "Inga prenumeranter ï¿½nnu"
 ? 1000+ prenumeranter ? Paginering planeras (slice 6)
 ? Dubbletter i DB ? Visas (fixas av UNIQUE constraint)
-? Null/tomma värden ? Filtreras bort
+? Null/tomma vï¿½rden ? Filtreras bort
 ? Databasfel ? Felmeddelande visas
 ```
 
 ## **Arkitektur**
 
 ```
-Database (SQLite för demo)
+Database (SQLite fï¿½r demo)
 ?? Subscribers table
 ?  ?? Id (int, PK)
 ?  ?? Email (string, UNIQUE, NOT NULL)
@@ -274,8 +274,8 @@ public async Task GetAllAsync_WithDatabaseError_ThrowsException()
 ? Components/Pages/Subscribers.razor
   ?? @page "/subscribers"
   ?? @authorize
-  ?? Lista från SubscriberService
-  ?? "Inga prenumeranter ännu" - empty state
+  ?? Lista frï¿½n SubscriberService
+  ?? "Inga prenumeranter ï¿½nnu" - empty state
 
 ? Program.cs
   ?? .AddDbContext<MailingListContext>()
@@ -289,7 +289,7 @@ public async Task GetAllAsync_WithDatabaseError_ThrowsException()
   ?? dotnet ef database update
 
 ? Tester (xUnit)
-  ?? SubscriberService.Tests.cs (5 tester, alla gröna)
+  ?? SubscriberService.Tests.cs (5 tester, alla grï¿½na)
 ```
 
 ## **Deliverables**
@@ -304,7 +304,7 @@ public async Task GetAllAsync_WithDatabaseError_ThrowsException()
 ## **Definition of Done**
 
 ```
-? Alla 5 tester gröna
+? Alla 5 tester grï¿½na
 ? Manual test: Lista visas
 ? @authorize skyddar sidan
 ? Empty state hanterad
@@ -314,31 +314,31 @@ public async Task GetAllAsync_WithDatabaseError_ThrowsException()
 
 ---
 
-# ?? SLICE 3: Lägg till Prenumerant (Create)
+# ?? SLICE 3: Lï¿½gg till Prenumerant (Create)
 
 ## **Detaljer**
 
-| Fält | Värde |
-|------|-------|
-| **User Story** | Som inloggad admin vill jag lägga till nya emailadresser för att växa listan |
-| **MVP** | Formulär + email-validering + spara till DB |
-| **Scope** | Input-validering + Create-operation + UI-uppdatering |
-| **Värde** | ? Admin kan bygga sin mailista |
-| **Tid** | ~20 min |
-| **Prioritet** | ?? **BÖR** ha (efter Slice 2) |
-| **Dependency** | ?? Slice 2 (kräver lista) |
+| Fï¿½lt           | Vï¿½rde                                                                        |
+| -------------- | ---------------------------------------------------------------------------- |
+| **User Story** | Som inloggad admin vill jag lï¿½gga till nya emailadresser fï¿½r att vï¿½xa listan |
+| **MVP**        | Formulï¿½r + email-validering + spara till DB                                  |
+| **Scope**      | Input-validering + Create-operation + UI-uppdatering                         |
+| **Vï¿½rde**      | ? Admin kan bygga sin mailista                                               |
+| **Tid**        | ~20 min                                                                      |
+| **Prioritet**  | ?? **Bï¿½R** ha (efter Slice 2)                                                |
+| **Dependency** | ?? Slice 2 (krï¿½ver lista)                                                    |
 
 ## **Acceptance Criteria**
 
 ```
-? Admin kan fylla i email och klicka "Lägg till"
+? Admin kan fylla i email och klicka "Lï¿½gg till"
 ? Giltiga emails sparas till databasen
 ? Ogiltiga emails ? Valideringsfel
 ? Dubbletter ? Varna: "Email redan prenumerant"
 ? Tom input ? Valideringsfel
-? Formulär tömmas efter framgång
+? Formulï¿½r tï¿½mmas efter framgï¿½ng
 ? Lista uppdateras automatiskt
-? Endast inloggad admin kan lägga till
+? Endast inloggad admin kan lï¿½gga till
 ```
 
 ## **Edge Cases**
@@ -347,9 +347,9 @@ public async Task GetAllAsync_WithDatabaseError_ThrowsException()
 ? Ogiltigt email-format ? Valideringsfel
 ? Whitespace ? Trimmas automatiskt
 ? Dubbletter (case-insensitive) ? Varna
-? Mycket långt email ? Trunkeras/vägras
-? Special characters ? Tillåts om RFC 5322-giltigt
-? SQL injection i email ? Förhindras av parameteriserad query
+? Mycket lï¿½ngt email ? Trunkeras/vï¿½gras
+? Special characters ? Tillï¿½ts om RFC 5322-giltigt
+? SQL injection i email ? Fï¿½rhindras av parameteriserad query
 ? XSS i feedback-meddelanden ? Saniteras
 ```
 
@@ -358,13 +358,13 @@ public async Task GetAllAsync_WithDatabaseError_ThrowsException()
 ```
 Email Format (RFC 5322 basic)
 ?? Regex: ^[^\s@]+@[^\s@]+\.[^\s@]+$
-?? Längd: 1-254 tecken
-?? Tillåtna chars: a-z, 0-9, ._+-@
+?? Lï¿½ngd: 1-254 tecken
+?? Tillï¿½tna chars: a-z, 0-9, ._+-@
 
 Business Rules
-?? Måste vara unikt (UNIQUE constraint)
+?? Mï¿½ste vara unikt (UNIQUE constraint)
 ?? Case-insensitive duplicat-check
-?? Trim whitespace före sparande
+?? Trim whitespace fï¿½re sparande
 ```
 
 ## **Tester (TDD)**
@@ -416,21 +416,21 @@ public async Task CreateAsync_WithXSSAttempt_IsSanitized()
   ?? Regex-validering
 
 ? Components/Pages/Subscribers.razor (extend)
-  ?? Form för "Lägg till email"
+  ?? Form fï¿½r "Lï¿½gg till email"
   ?? Input field + Submit-knapp
   ?? Felmeddelanden
   ?? Success-meddelande
   ?? Uppdatera lista efter Create
 
 ? Services/SubscriberService.Tests.cs (extend)
-  ?? 5 nya tester för Create
+  ?? 5 nya tester fï¿½r Create
 
 ? Models/Subscriber.cs (extend)
-  ?? Validering på modell-level (om önskat)
+  ?? Validering pï¿½ modell-level (om ï¿½nskat)
 
 ? Data/MailingListContext.cs (extend)
-  ?? Säkerställ UNIQUE constraint på Email
-  ?? Index för snabb lookup
+  ?? Sï¿½kerstï¿½ll UNIQUE constraint pï¿½ Email
+  ?? Index fï¿½r snabb lookup
 ```
 
 ## **Deliverables**
@@ -443,12 +443,12 @@ public async Task CreateAsync_WithXSSAttempt_IsSanitized()
 ## **Definition of Done**
 
 ```
-? Alla 5 tester gröna
-? Manual test: Email läggs till
+? Alla 5 tester grï¿½na
+? Manual test: Email lï¿½ggs till
 ? Manual test: Dubbletter blockeras
 ? Manual test: Invalid emails blockeras
 ? Felmeddelanden tydliga
-? Formulär tömms efter sparande
+? Formulï¿½r tï¿½mms efter sparande
 ? Lista uppdateras automatiskt
 ```
 
@@ -458,23 +458,23 @@ public async Task CreateAsync_WithXSSAttempt_IsSanitized()
 
 ## **Detaljer**
 
-| Fält | Värde |
-|------|-------|
-| **User Story** | Som inloggad admin vill jag ta bort emailadresser för att hantera avprenumerationer |
-| **MVP** | Delete-knapp + bekräftelsedialog + uppdatera lista |
-| **Scope** | Delete-operation + UI-uppdatering + bekräftelse |
-| **Värde** | ? Admin kan hantera avprenumerationer |
-| **Tid** | ~15 min |
-| **Prioritet** | ?? **BÖR** ha (efter Slice 3) |
-| **Dependency** | ?? Slice 3 (kräver Create) |
+| Fï¿½lt           | Vï¿½rde                                                                               |
+| -------------- | ----------------------------------------------------------------------------------- |
+| **User Story** | Som inloggad admin vill jag ta bort emailadresser fï¿½r att hantera avprenumerationer |
+| **MVP**        | Delete-knapp + bekrï¿½ftelsedialog + uppdatera lista                                  |
+| **Scope**      | Delete-operation + UI-uppdatering + bekrï¿½ftelse                                     |
+| **Vï¿½rde**      | ? Admin kan hantera avprenumerationer                                               |
+| **Tid**        | ~15 min                                                                             |
+| **Prioritet**  | ?? **Bï¿½R** ha (efter Slice 3)                                                       |
+| **Dependency** | ?? Slice 3 (krï¿½ver Create)                                                          |
 
 ## **Acceptance Criteria**
 
 ```
 ? Varje prenumerant har "Ta bort"-knapp
-? Klick på "Ta bort" ? Bekräftelsedialog
-? Bekräfta ? Email tas bort från DB
-? Avbryt ? Inget händer
+? Klick pï¿½ "Ta bort" ? Bekrï¿½ftelsedialog
+? Bekrï¿½fta ? Email tas bort frï¿½n DB
+? Avbryt ? Inget hï¿½nder
 ? Efter borttagning ? Lista uppdateras
 ? Endast inloggad admin kan ta bort
 ? Systemmeddelande: "Email borttagen" visas
@@ -483,11 +483,11 @@ public async Task CreateAsync_WithXSSAttempt_IsSanitized()
 ## **Edge Cases**
 
 ```
-? Klick på "Ta bort" två gånger snabbt ? Idempotent
-? Email raderas medan dialog är öppen ? Hanteras gracefully
+? Klick pï¿½ "Ta bort" tvï¿½ gï¿½nger snabbt ? Idempotent
+? Email raderas medan dialog ï¿½r ï¿½ppen ? Hanteras gracefully
 ? Databasfel vid delete ? Felmeddelande visas
 ? Ingen prenumeranter ? Lista tom
-? XSS i bekräftelsedialog ? Saniteras
+? XSS i bekrï¿½ftelsedialog ? Saniteras
 ```
 
 ## **Tester (TDD)**
@@ -533,17 +533,17 @@ public async Task DeleteAsync_UpdatesListAfterDelete()
   ?? Hanterar NotFoundException om inte finns
 
 ? Components/Pages/Subscribers.razor (extend)
-  ?? "Ta bort"-knapp för varje prenumerant
-  ?? Bekräftelsedialog (Blazor modal eller sweetalert)
+  ?? "Ta bort"-knapp fï¿½r varje prenumerant
+  ?? Bekrï¿½ftelsedialog (Blazor modal eller sweetalert)
   ?? Submit: await SubscriberService.DeleteAsync(id)
   ?? Uppdatera lista efter delete
   ?? "Email borttagen"-meddelande
 
 ? Services/SubscriberService.Tests.cs (extend)
-  ?? 5 nya tester för Delete
+  ?? 5 nya tester fï¿½r Delete
 
 ? Models/Exceptions/NotFoundException.cs
-  ?? Custom exception för CRUD
+  ?? Custom exception fï¿½r CRUD
 ```
 
 ## **Deliverables**
@@ -556,9 +556,9 @@ public async Task DeleteAsync_UpdatesListAfterDelete()
 ## **Definition of Done**
 
 ```
-? Alla 5 tester gröna
+? Alla 5 tester grï¿½na
 ? Manual test: Delete funkar
-? Manual test: Bekräftelsedialog
+? Manual test: Bekrï¿½ftelsedialog
 ? Manual test: Lista uppdateras
 ? Idempotency testerad
 ? Felmeddelanden hanterade
@@ -570,15 +570,15 @@ public async Task DeleteAsync_UpdatesListAfterDelete()
 
 ## **Detaljer**
 
-| Fält | Värde |
-|------|-------|
-| **User Story** | Som admin vill jag veta att bara giltiga emails är i listan för datakvalitet |
-| **MVP** | Regex-validering + dubblettcheck + tydliga felmeddelanden |
-| **Scope** | Valideringslogik + felmeddelanden + unit tests |
-| **Värde** | ? Datakvalitet - bara giltiga emails i systemet |
-| **Tid** | ~15 min |
-| **Prioritet** | ?? **BÖR** ha (kan göras parallellt med slice 3) |
-| **Dependency** | ?? Slice 3 (Create-logik) |
+| Fï¿½lt           | Vï¿½rde                                                                        |
+| -------------- | ---------------------------------------------------------------------------- |
+| **User Story** | Som admin vill jag veta att bara giltiga emails ï¿½r i listan fï¿½r datakvalitet |
+| **MVP**        | Regex-validering + dubblettcheck + tydliga felmeddelanden                    |
+| **Scope**      | Valideringslogik + felmeddelanden + unit tests                               |
+| **Vï¿½rde**      | ? Datakvalitet - bara giltiga emails i systemet                              |
+| **Tid**        | ~15 min                                                                      |
+| **Prioritet**  | ?? **Bï¿½R** ha (kan gï¿½ras parallellt med slice 3)                             |
+| **Dependency** | ?? Slice 3 (Create-logik)                                                    |
 
 ## **Acceptance Criteria**
 
@@ -588,8 +588,8 @@ public async Task DeleteAsync_UpdatesListAfterDelete()
 ? Dubbletter blockeras ? "Already subscribed"
 ? Whitespace trimmas automatiskt
 ? Case-insensitive duplikat-check
-? Långa emails trunkeras/blockeras
-? Alla felmeddelanden på svenska
+? Lï¿½nga emails trunkeras/blockeras
+? Alla felmeddelanden pï¿½ svenska
 ```
 
 ## **Validering Rules**
@@ -598,10 +598,10 @@ public async Task DeleteAsync_UpdatesListAfterDelete()
 EMAIL FORMAT (RFC 5322 basic)
 ?? Format: localpart@domain.tld
 ?? Regex: ^[a-zA-Z0-9._\-+]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$
-?? Längd: 5-254 tecken
-?? Tillåtna chars: a-z, 0-9, ._+-
-?? Måste innehålla exakt en @
-?? Domain måste ha minst en punkt
+?? Lï¿½ngd: 5-254 tecken
+?? Tillï¿½tna chars: a-z, 0-9, ._+-
+?? Mï¿½ste innehï¿½lla exakt en @
+?? Domain mï¿½ste ha minst en punkt
 
 DUPLICATES
 ?? Case-insensitive check
@@ -623,19 +623,19 @@ EDGE CASES
 
 ```
 Felaktig email-format
-?? "Email måste vara i formatet: namn@exempel.se"
+?? "Email mï¿½ste vara i formatet: namn@exempel.se"
 
 Email redan prenumerant
-?? "test@example.com är redan prenumerant"
+?? "test@example.com ï¿½r redan prenumerant"
 
 Tom email
-?? "Email-fältet får inte vara tomt"
+?? "Email-fï¿½ltet fï¿½r inte vara tomt"
 
-Email för långt
-?? "Email får max vara 254 tecken"
+Email fï¿½r lï¿½ngt
+?? "Email fï¿½r max vara 254 tecken"
 
-Okänt fel
-?? "Något gick fel. Försök igen."
+Okï¿½nt fel
+?? "Nï¿½got gick fel. Fï¿½rsï¿½k igen."
 ```
 
 ## **Tester (TDD)**
@@ -718,17 +718,17 @@ public async Task CreateAsync_RejectsLongEmails()
   ?? Tydliga error messages
 
 ? Components/Pages/Subscribers.razor (extend)
-  ?? Visa error messages från validering
+  ?? Visa error messages frï¿½n validering
   ?? Real-time validation (optional)
 
 ? Services/Validators/EmailValidator.Tests.cs (new)
-  ?? 15+ tester för email-format
+  ?? 15+ tester fï¿½r email-format
 
 ? Services/SubscriberService.Tests.cs (extend)
-  ?? 5+ tester för validering-logik
+  ?? 5+ tester fï¿½r validering-logik
 
 ? Resources/Messages/ValidationMessages.cs
-  ?? Centraliserade felmeddelanden på svenska
+  ?? Centraliserade felmeddelanden pï¿½ svenska
 ```
 
 ## **Deliverables**
@@ -742,74 +742,79 @@ public async Task CreateAsync_RejectsLongEmails()
 ## **Definition of Done**
 
 ```
-? Alla 15+ tester gröna
+? Alla 15+ tester grï¿½na
 ? Manual test: Giltiga emails accepteras
 ? Manual test: Ogiltiga emails blockeras
 ? Manual test: Dubbletter blockeras
-? Felmeddelanden tydliga och på svenska
+? Felmeddelanden tydliga och pï¿½ svenska
 ? Whitespace trimmas
 ? Case-insensitive dublikat-check
 ```
 
 ---
 
-# ?? NÄSTA STEPS EFTER SLICE 5
+# ?? Nï¿½STA STEPS EFTER SLICE 5
 
-## **Backlog för Slice 6-10 (Future)**
+## **Backlog fï¿½r Slice 6-10 (Future)**
 
 ### **Slice 6: Email-notifikation**
-- Skicka bekräftelse-email vid subscription
+
+- Skicka bekrï¿½ftelse-email vid subscription
 - Use case: SendGrid eller SMTP
 
 ### **Slice 7: Paginering**
+
 - Lista 20 prenumeranter per sida
-- Använd Radzen Blazor components
+- Anvï¿½nd Radzen Blazor components
 
 ### **Slice 8: Search/Filter**
+
 - Filtrera prenumeranter efter email-fragment
 - Real-time search
 
 ### **Slice 9: Export/Import**
+
 - Exportera lista som CSV
-- Importera emails från CSV
+- Importera emails frï¿½n CSV
 
 ### **Slice 10: Audit Log**
-- Logga alla ändringar (vem, när, vad)
-- Visa ändringshistorik
+
+- Logga alla ï¿½ndringar (vem, nï¿½r, vad)
+- Visa ï¿½ndringshistorik
 
 ---
 
 # ?? SAMMANFATTNING
 
-| Slice | Titel | User Story | Tid | Värde |
-|-------|-------|-----------|-----|-------|
-| 1 | Admin Login | Logga in säkert | 20 min | ?? Måste ha |
-| 2 | Lista Prenumeranter | Se all prenumeranter | 15 min | ?? Bör ha |
-| 3 | Lägg till Prenumerant | Växa listan | 20 min | ?? Bör ha |
-| 4 | Ta bort Prenumerant | Hantera avprenum. | 15 min | ?? Bör ha |
-| 5 | Email-validering | Datakvalitet | 15 min | ?? Bör ha |
+| Slice | Titel                 | User Story           | Tid    | Vï¿½rde       |
+| ----- | --------------------- | -------------------- | ------ | ----------- |
+| 1     | Admin Login           | Logga in sï¿½kert      | 20 min | ?? Mï¿½ste ha |
+| 2     | Lista Prenumeranter   | Se all prenumeranter | 15 min | ?? Bï¿½r ha   |
+| 3     | Lï¿½gg till Prenumerant | Vï¿½xa listan          | 20 min | ?? Bï¿½r ha   |
+| 4     | Ta bort Prenumerant   | Hantera avprenum.    | 15 min | ?? Bï¿½r ha   |
+| 5     | Email-validering      | Datakvalitet         | 15 min | ?? Bï¿½r ha   |
 
-**Total tid:** ~85 minuter (5 × 17 min)
+**Total tid:** ~85 minuter (5 ï¿½ 17 min)
 
-**Status:** ? Alla slices helt specifierade och klara för implementation
+**Status:** ? Alla slices helt specifierade och klara fï¿½r implementation
 
 ---
 
-# ?? GÅ IGÅNG
+# ?? Gï¿½ IGï¿½NG
 
-För varje slice, följ dessa 7 steg:
+Fï¿½r varje slice, fï¿½lj dessa 7 steg:
 
-1. **Förtydliga & Spec** (2 min) ? *Klar! Se ovan*
-2. **Backlog & Slices** (3 min) ? *Klar! Se ovan*
-3. **Arkitektur** (3 min) ? *Klar för Slice 1, gör för övriga*
-4. **TDD** (5 min) ? *Skriv tester + kod*
-5. **Manuell test** (3 min) ? *Testa i UI*
-6. **Refactor** (3 min) ? *Granska kod*
-7. **Commit** (2 min) ? *Commit med message*
+1. **Fï¿½rtydliga & Spec** (2 min) ? _Klar! Se ovan_
+2. **Backlog & Slices** (3 min) ? _Klar! Se ovan_
+3. **Arkitektur** (3 min) ? _Klar fï¿½r Slice 1, gï¿½r fï¿½r ï¿½vriga_
+4. **TDD** (5 min) ? _Skriv tester + kod_
+5. **Manuell test** (3 min) ? _Testa i UI_
+6. **Refactor** (3 min) ? _Granska kod_
+7. **Commit** (2 min) ? _Commit med message_
 
 **Slut tid per slice:** ~20 minuter
 
-Se `DEMO_WALKTHROUGH.md` för detaljer om processen.
+Se `DEMO_WALKTHROUGH.md` fï¿½r detaljer om processen.
 
 ---
 

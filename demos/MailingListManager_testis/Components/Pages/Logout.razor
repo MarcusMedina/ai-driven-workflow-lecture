@@ -1,0 +1,19 @@
+@page "/logout"
+@using MailingListManager.Authentication
+@using Microsoft.AspNetCore.Components.Authorization
+@inject CustomAuthStateProvider AuthStateProvider
+@inject NavigationManager NavigationManager
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        // Logga ut användaren
+        AuthStateProvider.NotifyUserLogout();
+        
+        // Vänta lite så sessions-ändringar registreras
+        await Task.Delay(100);
+        
+        // Omdirigera till login
+        NavigationManager.NavigateTo("/login", forceLoad: true);
+    }
+}
