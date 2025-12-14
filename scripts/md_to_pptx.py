@@ -93,9 +93,13 @@ class MarpToPptx:
             'is_italic': False,
             'is_code': False,
             'is_list': False,
+            'is_blockquote': False,
             'list_level': 0,
             'is_image_placeholder': False
         }
+
+        # Ta bort HTML-taggar först
+        line = re.sub(r'<[^>]+>', '', line)
 
         # Hantera bilder - konvertera till placeholder
         # Syntax: ![alt text](image_path) eller ![](image_path)
@@ -108,6 +112,11 @@ class MarpToPptx:
             line = re.sub(r'!\[([^\]]*)\]\(([^)]+)\)', f'[ Plats för bild: {placeholder_text} ]', line)
             formats['is_image_placeholder'] = True
 
+        # Blockquotes (> text)
+        if line.startswith('> '):
+            formats['is_blockquote'] = True
+            line = line[2:]  # Ta bort >
+
         # Headers
         if line.startswith('# '):
             formats['is_h1'] = True
@@ -119,7 +128,7 @@ class MarpToPptx:
             formats['is_h3'] = True
             line = line[4:]
 
-        # Lists
+        # Lists (- eller * för bullets)
         if re.match(r'^(\s*)[-*]\s', line):
             formats['is_list'] = True
             match = re.match(r'^(\s*)[-*]\s', line)
@@ -151,11 +160,9 @@ class MarpToPptx:
             line = re.sub(r'\*(.+?)\*', r'\1', line)
             line = re.sub(r'_(.+?)_', r'\1', line)
 
-        # Ta bort HTML-kommentarer
+        # Ta bort HTML-kommentarer (redan gjort ovan med HTML-taggar)
+        # men behåll för säkerhets skull
         line = re.sub(r'<!--.*?-->', '', line)
-
-        # Ta bort emojis från vissa special markers
-        line = line.replace('<!-- _class: lead -->', '')
 
         return line.strip(), formats
 
@@ -223,19 +230,52 @@ class MarpToPptx:
 
     def create_content_slide(self, slide, lines):
         """Skapa en content slide"""
-        left = Inches(0.5)
-        top = Inches(0.5)
-        width = Inches(15)
-        height = Inches(8)
+        # Kolla om första raden är H1 - då skapar vi separat title box
+        has_h1_title = False
+        title_text = ""
+        content_lines = lines[:]
 
-        textbox = slide.shapes.add_textbox(left, top, width, height)
+        if lines and lines[0].strip().startswith('# '):
+            has_h1_title = True
+            title_text = lines[0].strip()[2:].strip()
+            content_lines = lines[1:]  # Resten av innehållet
+
+        # Skapa title box om vi har H1
+        if has_h1_title:
+            title_left = Inches(0.5)
+            title_top = Inches(0.3)
+            title_width = Inches(15)
+            title_height = Inches(1.2)
+
+            title_box = slide.shapes.add_textbox(title_left, title_top, title_width, title_height)
+            title_frame = title_box.text_frame
+            title_frame.word_wrap = True
+
+            p = title_frame.paragraphs[0]
+            p.text = title_text
+            p.font.size = Pt(44)
+            p.font.color.rgb = self.h1_color
+            p.font.bold = True
+
+            # Content börjar lägre ner
+            content_top = Inches(1.8)
+            content_height = Inches(6.7)
+        else:
+            content_top = Inches(0.5)
+            content_height = Inches(8)
+
+        # Skapa content box
+        left = Inches(0.5)
+        width = Inches(15)
+
+        textbox = slide.shapes.add_textbox(left, content_top, width, content_height)
         text_frame = textbox.text_frame
         text_frame.word_wrap = True
 
         in_code_block = False
         code_lines = []
 
-        for line in lines:
+        for line in content_lines:
             # Hantera code blocks
             if line.strip().startswith('```'):
                 if in_code_block:
@@ -267,6 +307,7 @@ class MarpToPptx:
 
             # Applicera formatering
             if formats['is_h1']:
+                # H1 hanteras nu i separat title box, men om det finns i content
                 p.font.size = Pt(44)
                 p.font.color.rgb = self.h1_color
                 p.font.bold = True
@@ -277,6 +318,12 @@ class MarpToPptx:
             elif formats['is_h3']:
                 p.font.size = Pt(28)
                 p.font.color.rgb = self.h2_color
+            elif formats['is_blockquote']:
+                # Blockquote formatering - italic, indenterad
+                p.font.size = Pt(20)
+                p.font.color.rgb = RGBColor(176, 176, 176)  # Ljusare grå
+                p.font.italic = True
+                p.level = 1  # Indentera
             elif formats['is_image_placeholder']:
                 # Image placeholder i italic och ljusare färg
                 p.font.size = Pt(18)
@@ -292,7 +339,7 @@ class MarpToPptx:
 
             if formats['is_bold']:
                 p.font.bold = True
-            if formats['is_italic']:
+            if formats['is_italic'] and not formats['is_blockquote']:  # blockquote redan italic
                 p.font.italic = True
 
     def add_code_block(self, text_frame, code):
