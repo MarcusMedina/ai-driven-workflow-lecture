@@ -1,7 +1,9 @@
 using MailingListManager.Components;
 using MailingListManager.Services;
 using MailingListManager.Authentication;
+using MailingListManager.Data;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +21,14 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
+// Database
+builder.Services.AddDbContext<MailingListContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") 
+        ?? "Data Source=mailinglist.db"));
+
+// Services
+builder.Services.AddScoped<SubscriberService>();
 
 // Authentication
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
