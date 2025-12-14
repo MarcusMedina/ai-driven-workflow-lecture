@@ -1,7 +1,5 @@
 ---
 marp: true
-footer:Skapad av [Marcus Ackre Medina](https://marcusackre.se) - Programmeringslärare @ Yrkeshögskolan Campus Mölndal
-
 ---
 
 # AI-Driven Development Workflow
