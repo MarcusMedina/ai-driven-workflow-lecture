@@ -9,6 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+// Add in-memory caching (required for session)
+builder.Services.AddDistributedMemoryCache();
+
 // Add Session
 builder.Services.AddSession(options =>
 {
