@@ -230,18 +230,25 @@ class MarpToPptx:
 
     def create_content_slide(self, slide, lines):
         """Skapa en content slide"""
-        # Kolla om första raden är H1 - då skapar vi separat title box
-        has_h1_title = False
+        # Kolla om första raden är H1 eller H2 - då skapar vi separat title box
+        has_title = False
         title_text = ""
+        is_h1 = False
         content_lines = lines[:]
 
         if lines and lines[0].strip().startswith('# '):
-            has_h1_title = True
+            has_title = True
+            is_h1 = True
             title_text = lines[0].strip()[2:].strip()
-            content_lines = lines[1:]  # Resten av innehållet
+            content_lines = lines[1:]
+        elif lines and lines[0].strip().startswith('## '):
+            has_title = True
+            is_h1 = False
+            title_text = lines[0].strip()[3:].strip()
+            content_lines = lines[1:]
 
-        # Skapa title box om vi har H1
-        if has_h1_title:
+        # Skapa title box om vi har H1 eller H2
+        if has_title:
             title_left = Inches(0.5)
             title_top = Inches(0.3)
             title_width = Inches(15)
@@ -253,13 +260,18 @@ class MarpToPptx:
 
             p = title_frame.paragraphs[0]
             p.text = title_text
-            p.font.size = Pt(44)
-            p.font.color.rgb = self.h1_color
+
+            if is_h1:
+                p.font.size = Pt(44)
+                p.font.color.rgb = self.h1_color
+            else:  # H2
+                p.font.size = Pt(36)
+                p.font.color.rgb = self.h2_color
             p.font.bold = True
 
             # Content börjar lägre ner
-            content_top = Inches(1.8)
-            content_height = Inches(6.7)
+            content_top = Inches(1.6)
+            content_height = Inches(6.9)
         else:
             content_top = Inches(0.5)
             content_height = Inches(8)
