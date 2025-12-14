@@ -178,7 +178,7 @@ Men den förstärker också **dåliga**.
 
 ---
 
->If you fail to plan, you plan to fail
+> If you fail to plan, you plan to fail
 >
 > _- Taylor Swift_
 
@@ -270,7 +270,7 @@ Förklara trade-offs för:
 
 ### 3. Du är den som behövs
 
-> **AI kan göra dig 10x snabbare.** > **Men bara om du vet:**
+> **AI kan göra dig 10x snabbare → Men bara om du vet:**
 >
 > - **VAD** ska byggas (värde)
 > - **VARFÖR** det ska byggas så (hållbarhet)

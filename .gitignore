@@ -1,37 +1,67 @@
-# .NET
-bin/
-obj/
-*.user
-*.suo
-*.cache
-*.dll
-*.exe
-*.pdb
-*.log
+# Created by https://www.toptal.com/developers/gitignore/api/windows,linux,macos,visualstudio,visualstudiocode,obsidian,pydev,python,jetbrains+all,jetbrains+iml,netbeans,aspnetcore,dotenv,dotnetcore,notepadpp,justcode,vim,nanoc,sass,maven,flask,react,node
+# Edit at https://www.toptal.com/developers/gitignore?templates=windows,linux,macos,visualstudio,visualstudiocode,obsidian,pydev,python,jetbrains+all,jetbrains+iml,netbeans,aspnetcore,dotenv,dotnetcore,notepadpp,justcode,vim,nanoc,sass,maven,flask,react,node
 
-# Build results
-[Dd]ebug/
-[Rr]elease/
-x64/
-x86/
-[Aa][Rr][Mm]/
-[Aa][Rr][Mm]64/
-bld/
+################################
+# OS
+################################
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+*.icloud
+.Trash-*
+.fuse_hidden*
+.nfs*
+
+################################
+# Environment / Secrets
+################################
+.env
+.env.*
+!.env.example
+
+################################
+# .NET / Visual Studio / ASP.NET
+################################
+.vs/
 [Bb]in/
 [Oo]bj/
-
-# Visual Studio
-.vs/
-*.rsuser
-*.suo
+[Dd]ebug*/
+[Rr]elease*/
+x64/
+x86/
 *.user
+*.suo
+*.rsuser
 *.userosscache
 *.sln.docstates
+*.cache
+*.log
+*.pdb
+*.ilk
+*.iobj
+*.ipdb
+*.tlog
+*.binlog
 
-# Test results
+# Blazor WebAssembly
+wwwroot/_framework/
+wwwroot/_content/
+wwwroot/blazor.boot.json
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Test / coverage
 TestResults/
-*.trx
 *.coverage
+*.coveragexml
+coverage*.json
+coverage*.xml
+BenchmarkDotNet.Artifacts/
 
 # NuGet
 *.nupkg
@@ -39,59 +69,92 @@ TestResults/
 **/packages/*
 !**/packages/build/
 
-# Node.js
-node_modules/
-npm-debug.log
-yarn-error.log
-package-lock.json
-yarn.lock
-.pnpm-debug.log
+################################
+# Python / Flask
+################################
+__pycache__/
+*.py[cod]
+*.pyo
+*.so
 
-# JavaScript/TypeScript
-dist/
+# Virtual envs
+.venv/
+venv/
+env/
+ENV/
+
+# Build / dist
 build/
-*.tsbuildinfo
-.eslintcache
+dist/
+*.egg-info/
+.eggs/
+wheels/
 
-# PHP
-vendor/
-composer.lock
-.phpunit.cache/
+# Test / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
 
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-.DS_Store
+# Flask
+instance/
+.webassets-cache
 
-# OS
-Thumbs.db
-Desktop.ini
-
-# Logs
-logs/
-*.log
+################################
+# Node / React
+################################
+node_modules/
 npm-debug.log*
 yarn-debug.log*
-yarn-error.log*
-
-# Environment
-.env
-.env.local
-.env.*.local
-
-# Coverage
+pnpm-debug.log*
 coverage/
-*.lcov
-.nyc_output/
+.nyc_output
+.parcel-cache
+.next/
+dist/
+build/
 
-# Temporary files
-*.tmp
-*.temp
+################################
+# Editors / IDEs
+################################
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/
+.vscode-test/
+
+# JetBrains
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# Obsidian
+.obsidian/
+
+# Vim
+[._]*.sw[a-p]
+Session.vim
+tags
+
+# Notepad++
 *.bak
-*.cache
 
-# Generated files
-*.pptx
+################################
+# Docs / Static sites
+################################
+site/
+docs/_build/
+
+################################
+# Misc
+################################
+*.pid
+*.seed
+*.tgz
+*.tmp

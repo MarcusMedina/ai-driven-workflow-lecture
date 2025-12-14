@@ -1,0 +1,114 @@
+.page {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+    background: transparent;
+}
+
+.sidebar {
+    background: linear-gradient(180deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%);
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.top-row {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    justify-content: flex-end;
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+}
+
+    .top-row ::deep a, .top-row ::deep .btn-link {
+        white-space: nowrap;
+        margin-left: 1.5rem;
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.9);
+        transition: color 0.2s ease;
+    }
+
+    .top-row ::deep a:hover, .top-row ::deep .btn-link:hover {
+        color: white;
+        text-decoration: none;
+    }
+
+    .top-row ::deep a:first-child {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+@media (max-width: 640.98px) {
+    .top-row {
+        justify-content: space-between;
+    }
+
+    .top-row ::deep a, .top-row ::deep .btn-link {
+        margin-left: 0;
+    }
+}
+
+@media (min-width: 641px) {
+    .page {
+        flex-direction: row;
+    }
+
+    .sidebar {
+        width: 280px;
+        height: 100vh;
+        position: sticky;
+        top: 0;
+    }
+
+    .top-row {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+
+    .top-row.auth ::deep a:first-child {
+        flex: 1;
+        text-align: right;
+        width: 0;
+    }
+
+    .top-row, article {
+        padding-left: 2rem !important;
+        padding-right: 1.5rem !important;
+    }
+}
+
+#blazor-error-ui {
+    color-scheme: light only;
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border-top: 3px solid #f59e0b;
+    bottom: 0;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+    box-sizing: border-box;
+    display: none;
+    left: 0;
+    padding: 0.8rem 1.5rem 0.9rem 1.5rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    font-weight: 500;
+}
+
+    #blazor-error-ui .dismiss {
+        cursor: pointer;
+        position: absolute;
+        right: 1rem;
+        top: 0.6rem;
+        font-size: 1.2rem;
+        color: #92400e;
+        transition: transform 0.2s ease;
+    }
+
+    #blazor-error-ui .dismiss:hover {
+        transform: scale(1.2);
+    }

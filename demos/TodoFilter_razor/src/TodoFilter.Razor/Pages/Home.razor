@@ -1,0 +1,140 @@
+﻿@page "/"
+
+@inject TodoRepository Repository
+@inject TodoFilterService FilterService
+
+<PageTitle>TodoFilter i Blazor</PageTitle>
+
+<h1 class="mb-3">TodoFilter i Blazor</h1>
+<p class="lead">
+    Samma filtertjänst som i C#-demo:t, men med en interaktiv UI så du kan visa skillnaden mellan testfokuserad backend och en Blazor-front.
+</p>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <EditForm Model="_filters" OnValidSubmit="ApplyFilters">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-3">
+                    <label class="form-label">Status</label>
+                    <select class="form-select" @bind="_filters.Status">
+                        <option value="all">Alla</option>
+                        @foreach (var status in Statuses)
+                        {
+                            <option value="@status">@status</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Skapad efter</label>
+                    <InputDate DateFormat="yyyy-MM-dd" class="form-control" @bind-Value="_filters.CreatedAfter" />
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Titel innehåller</label>
+                    <InputText class="form-control" @bind-Value="_filters.TitleContains" />
+                </div>
+                <div class="col-md-2 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary flex-fill">Filtrera</button>
+                    <button type="button" class="btn btn-outline-secondary flex-fill" @onclick="ResetFilters">Nollställ</button>
+                </div>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-2">
+    <div class="text-muted">
+        @($"{_filteredTodos.Count} av {_allTodos.Count} todos matchar just nu")
+    </div>
+    <span class="badge bg-light text-dark border">
+        Drivs av <code>TodoFilterService</code> (samma som i testdemot)
+    </span>
+</div>
+
+@if (_filteredTodos.Count == 0)
+{
+    <div class="alert alert-warning">Inga todos matchar filtren.</div>
+}
+else
+{
+    <div class="table-responsive shadow-sm">
+        <table class="table align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>#</th>
+                    <th>Titel</th>
+                    <th>Status</th>
+                    <th>Skapad</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var todo in _filteredTodos)
+                {
+                    <tr>
+                        <td>@todo.Id</td>
+                        <td>@todo.Title</td>
+                        <td><span class="badge status">@todo.Status</span></td>
+                        <td>@todo.CreatedAt.ToString("yyyy-MM-dd")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+<div class="mt-4 p-3 bg-light border rounded">
+    <strong>Hur du kan demo:</strong>
+    <ul class="mb-0">
+        <li>Visa att <code>TodoFilterService</code> är identisk med console/test-exemplet.</li>
+        <li>Ändra filtren live och peka på skillnaden: här testkör du logiken via UI i stället för xUnit.</li>
+        <li>Lägg till en ny filterregel och låt AI hjälpa till – UI:t uppdateras direkt.</li>
+    </ul>
+</div>
+
+@code {
+    private List<Todo> _allTodos = [];
+    private List<Todo> _filteredTodos = [];
+    private FilterState _filters = new();
+
+    private IReadOnlyList<string> Statuses => Repository.Statuses;
+
+    protected override void OnInitialized()
+    {
+        _allTodos = Repository.GetAll();
+        ApplyFilters();
+    }
+
+    private void ApplyFilters()
+    {
+        var working = _allTodos;
+
+        if (!string.IsNullOrWhiteSpace(_filters.Status) && _filters.Status != "all")
+        {
+            working = FilterService.FilterByStatus(working, _filters.Status);
+        }
+
+        if (_filters.CreatedAfter.HasValue)
+        {
+            working = FilterService.FilterByDateAfter(working, _filters.CreatedAfter.Value);
+        }
+
+        if (!string.IsNullOrWhiteSpace(_filters.TitleContains))
+        {
+            working = FilterService.FilterByTitleContains(working, _filters.TitleContains);
+        }
+
+        _filteredTodos = working;
+    }
+
+    private void ResetFilters()
+    {
+        _filters = new FilterState();
+        ApplyFilters();
+    }
+
+    private class FilterState
+    {
+        public string Status { get; set; } = "all";
+        public DateTime? CreatedAfter { get; set; }
+        public string TitleContains { get; set; } = string.Empty;
+    }
+}

@@ -61,14 +61,78 @@ TodoFilter/
 ├── src/
 │   └── TodoFilter/
 │       ├── Models/
-│       │   └── Todo.cs                    # Data model
+│       │   └── Todo.cs                              # Data model
 │       └── Services/
-│           └── TodoFilterService.cs       # Business logic
-└── tests/
-    └── TodoFilter.Tests/
-        └── Services/
-            └── TodoFilterServiceTests.cs  # Unit tests
+│           ├── TodoFilterService.cs                 # ✅ Business logic (KORREKT)
+│           └── TodoFilterService.BUGGY.cs           # ❌ BUGGY version (för demo)
+├── tests/
+│   └── TodoFilter.Tests/
+│       └── Services/
+│           ├── TodoFilterServiceTests.cs            # ✅ Unit tests (passar)
+│           └── TodoFilterServiceTests.BUGGY.cs      # ❌ Tester som failar (för demo)
+├── DEMO_MANUS.md                                    # 📋 Steg-för-steg demo-guide
+└── README.md                                        # 📖 Denna fil
 ```
+
+### 🎭 Demo-filer (nya!)
+
+**TodoFilterService.BUGGY.cs** - Version med avsiktliga buggar:
+- ❌ Bug #1: Ingen null-check på status → NullReferenceException
+- ❌ Bug #2: Case-sensitive jämförelse → tappar data ("Done" != "done")
+
+**TodoFilterServiceTests.BUGGY.cs** - Tester som failar mot buggy kod:
+- ❌ FilterByStatus_WithNullStatus → Kraschar
+- ❌ FilterByStatus_IsCaseInsensitive → Förväntar 3, får 1
+
+**DEMO_MANUS.md** - Komplett demo-guide:
+- ⏱️ 15 minuters tidslinje
+- 💬 Exakt vad du ska säga
+- 🎯 Key talking points
+- 🛠️ Troubleshooting
+
+---
+
+## 🎬 Köra live-demon
+
+### **Demo-koncept:**
+Visa hur TDD hittar buggar INNAN de når produktion!
+
+**Steg:**
+1. Visa BUGGY implementation → ser OK ut
+2. Kör tester → FAILAR med kraschar
+3. Fixa buggarna → minimal ändring
+4. Kör tester igen → GRÖNA ✅
+
+**Budskap:** Utan TDD → buggar i prod. Med TDD → buggar hittade på 30 sekunder.
+
+### **Kör buggy tester (ska faila):**
+```bash
+cd tests/TodoFilter.Tests
+dotnet test --filter "TodoFilterServiceTests_BUGGY"
+```
+
+**Förväntat resultat:**
+```
+❌ FilterByStatus_WithNullStatus_ReturnsEmptyList
+   System.NullReferenceException: Object reference not set...
+
+❌ FilterByStatus_IsCaseInsensitive
+   Expected: 3
+   Actual: 1
+```
+
+### **Kör korrekta tester (ska passa):**
+```bash
+dotnet test --filter "TodoFilterServiceTests"
+```
+
+**Förväntat resultat:**
+```
+✅ Passed! - Failed: 0, Passed: 6, Skipped: 0
+```
+
+### **Komplett demo-guide:**
+Öppna `DEMO_MANUS.md` för detaljerad steg-för-steg guide!
 
 ---
 

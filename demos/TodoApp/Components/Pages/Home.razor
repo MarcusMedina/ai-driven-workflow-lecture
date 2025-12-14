@@ -1,0 +1,216 @@
+﻿@page "/"
+@rendermode InteractiveServer
+@using TodoApp.Models
+@inject TodoApp.Services.TodoStore Store
+@inject TodoApp.Services.TodoService TodoService
+
+<PageTitle>Todo</PageTitle>
+
+<div class="todo-shell">
+    <header class="todo-header">
+        <div>
+            <p class="eyebrow">Slice 1 — skapa → se → bocka av</p>
+            <h1>Din todo-lista</h1>
+            <p class="lede">Lägg till en sak, se den direkt och bocka av när den är klar.</p>
+        </div>
+        <div class="status-chip">@(_todos.Count(todo => todo.Completed)) klara · @_todos.Count totalt</div>
+    </header>
+
+    <div class="filter-bar">
+        <div class="search-box">
+            <input type="search"
+                   class="form-control"
+                   placeholder="Sök todo..."
+                   value="@_searchTerm"
+                   @oninput="OnSearchChanged"
+                   aria-label="Sök i todos" />
+        </div>
+        <div class="filter-toggle" role="group" aria-label="Filtrera status">
+            <button type="button"
+                    class="btn btn-outline-secondary @(IsFilterActive(TodoStatusFilter.All) ? "active" : string.Empty)"
+                    @onclick="() => SetFilter(TodoStatusFilter.All)">
+                Alla
+            </button>
+            <button type="button"
+                    class="btn btn-outline-secondary @(IsFilterActive(TodoStatusFilter.Open) ? "active" : string.Empty)"
+                    @onclick="() => SetFilter(TodoStatusFilter.Open)">
+                Öppna
+            </button>
+            <button type="button"
+                    class="btn btn-outline-secondary @(IsFilterActive(TodoStatusFilter.Completed) ? "active" : string.Empty)"
+                    @onclick="() => SetFilter(TodoStatusFilter.Completed)">
+                Klara
+            </button>
+        </div>
+        <div class="category-filter">
+            <select class="form-select" @onchange="OnCategoryFilterChanged" value="@_categoryFilter">
+                <option value="Alla">Alla kategorier</option>
+                @foreach (var cat in _availableCategories)
+                {
+                    <option value="@cat">@cat</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <form class="todo-form" @onsubmit="AddTodo">
+        <label for="todo-text">Todo</label>
+        <div class="todo-input-row">
+            <input id="todo-text"
+                   class="form-control"
+                   type="text"
+                   placeholder="Skriv något som ska göras"
+                   @bind="_newTodoText"
+                   @bind:event="oninput"
+                   required
+                   minlength="2"
+                   aria-label="Ny todo" />
+            <button type="submit" class="btn btn-primary" disabled="@_adding">Lägg till</button>
+        </div>
+        <div class="mt-2">
+            <label class="form-label" for="todo-category">Kategori</label>
+            <input id="todo-category"
+                   class="form-control"
+                   type="text"
+                   placeholder="Allmänt"
+                   @bind="_newCategory"
+                   @bind:event="oninput"
+                   aria-label="Kategori för todo" />
+        </div>
+        @if (!string.IsNullOrWhiteSpace(_error))
+        {
+            <p class="text-danger mt-2">@_error</p>
+        }
+    </form>
+
+    @if (_loading)
+    {
+        <p class="muted">Laddar...</p>
+    }
+    else if (_todos.Count == 0)
+    {
+        <div class="empty-state">
+            <p>Inga todos ännu. Lägg till en första uppgift!</p>
+        </div>
+    }
+    else
+    {
+        <ul class="todo-list">
+            @foreach (var todo in _todos)
+            {
+                <li class="todo-card @(todo.Completed ? "done" : string.Empty)">
+                    <label class="todo-row">
+                        <input type="checkbox"
+                               checked="@todo.Completed"
+                               @onchange="() => Toggle(todo)"
+                               aria-label="@($"Markera {todo.Text} som klar")" />
+                        <div class="todo-text">
+                            <span>@todo.Text</span>
+                            <small class="muted">Skapad @todo.CreatedAt.LocalDateTime.ToString("yyyy-MM-dd HH:mm")</small>
+                        </div>
+                    </label>
+                    <div class="badge-row">
+                        <span class="category-chip">@todo.Category</span>
+                        <span class="state-chip">@((todo.Completed) ? "Klar" : "Öppen")</span>
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+</div>
+
+@code {
+    private readonly List<TodoItem> _todos = new();
+    private string _newTodoText = string.Empty;
+    private string _newCategory = TodoApp.Services.TodoService.DefaultCategory;
+    private string _searchTerm = string.Empty;
+    private string _categoryFilter = "Alla";
+    private TodoStatusFilter _statusFilter = TodoStatusFilter.All;
+    private List<string> _availableCategories = new();
+    private bool _loading = true;
+    private bool _adding;
+    private string? _error;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadTodosAsync();
+    }
+
+    private async Task LoadTodosAsync()
+    {
+        _loading = true;
+        var items = await TodoService.QueryTodosAsync(_searchTerm, _statusFilter, _categoryFilter);
+        var allItems = await TodoService.QueryTodosAsync(null, TodoStatusFilter.All, null);
+        _todos.Clear();
+        _todos.AddRange(items);
+        _availableCategories = allItems
+            .Select(t => t.Category)
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .OrderBy(c => c)
+            .ToList();
+        _loading = false;
+    }
+
+    private async Task AddTodo()
+    {
+        if (string.IsNullOrWhiteSpace(_newTodoText) || _adding)
+        {
+            return;
+        }
+
+        _adding = true;
+        _error = null;
+
+        try
+        {
+            var added = await TodoService.CreateTodoAsync(_newTodoText, _newCategory);
+            _newTodoText = string.Empty;
+            _newCategory = TodoApp.Services.TodoService.DefaultCategory;
+            await LoadTodosAsync();
+        }
+        catch (Exception ex)
+        {
+            _error = $"Kunde inte spara: {ex.Message}";
+        }
+        finally
+        {
+            _adding = false;
+        }
+    }
+
+    private async Task Toggle(TodoItem todo)
+    {
+        var updated = await TodoService.ToggleTodoAsync(todo.Id);
+        if (updated is null)
+        {
+            return;
+        }
+
+        await LoadTodosAsync();
+    }
+
+    private async Task OnSearchChanged(ChangeEventArgs args)
+    {
+        _searchTerm = args.Value?.ToString() ?? string.Empty;
+        await LoadTodosAsync();
+    }
+
+    private async Task SetFilter(TodoStatusFilter filter)
+    {
+        if (_statusFilter == filter)
+        {
+            return;
+        }
+
+        _statusFilter = filter;
+        await LoadTodosAsync();
+    }
+
+    private bool IsFilterActive(TodoStatusFilter filter) => _statusFilter == filter;
+
+    private async Task OnCategoryFilterChanged(ChangeEventArgs args)
+    {
+        _categoryFilter = args.Value?.ToString() ?? "Alla";
+        await LoadTodosAsync();
+    }
+}

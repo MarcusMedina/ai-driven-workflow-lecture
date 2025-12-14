@@ -1,0 +1,89 @@
+﻿@page "/"
+
+<PageTitle>Mailing List Manager</PageTitle>
+
+<div class="hero">
+    <div>
+        <p class="eyebrow">AI-Driven Development Demo</p>
+        <h1>Mailing List Manager</h1>
+        <p class="lead">
+            En liten Blazor-app för att visa slice 1: admin-login och hantering av prenumeranter.
+            Inloggningen är hårdkodad för demo, resten kan byggas ut i nästa slices.
+        </p>
+        <div class="cta">
+            <a class="btn btn-primary" href="/login">Logga in som admin</a>
+            <span class="demo-creds">admin@example.com / Admin123!</span>
+        </div>
+    </div>
+    <div class="card hero-card">
+        <h3>Vad som ingår i slice 1</h3>
+        <ul>
+            <li>🔐 Admin-login med CustomAuthStateProvider</li>
+            <li>✅ Skyddad ruta <code>/admin/subscribers</code></li>
+            <li>➕➖ Lägg till och ta bort prenumeranter (in-memory)</li>
+            <li>🧪 Validering av email + dubblettkontroll</li>
+        </ul>
+    </div>
+</div>
+
+<style>
+    .hero {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 24px;
+        align-items: center;
+        margin: 20px 0;
+    }
+
+    .eyebrow {
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #6b7280;
+        font-weight: 700;
+        margin-bottom: 8px;
+        font-size: 12px;
+    }
+
+    h1 {
+        margin: 0 0 10px 0;
+    }
+
+    .lead {
+        color: #4b5563;
+        max-width: 680px;
+        margin-bottom: 16px;
+    }
+
+    .cta {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .demo-creds {
+        background: #f3f4f6;
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-family: ui-monospace, SFMono-Regular, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        color: #111827;
+    }
+
+    .hero-card {
+        background: #0b4f6c;
+        color: white;
+    }
+
+    .hero-card h3 {
+        margin-top: 0;
+    }
+
+    .hero-card li {
+        margin-bottom: 6px;
+    }
+
+    @@media (max-width: 900px) {
+        .hero {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

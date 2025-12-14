@@ -1,0 +1,367 @@
+@page "/admin/subscribers"
+@using MailingListManager.Services
+@using MailingListManager.Models
+@using MailingListManager.Authentication
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Authentication.Cookies
+@attribute [Authorize(Roles = "Admin")]
+@inject ISubscriberService SubscriberService
+@inject AuthenticationStateProvider AuthStateProvider
+@inject NavigationManager Navigation
+@inject IHttpContextAccessor HttpContextAccessor
+
+<PageTitle>Subscribers - Mailing List Manager</PageTitle>
+
+<div class="admin-container">
+    <div class="admin-header">
+        <div>
+            <h1>📧 Mailing List Manager</h1>
+            <p class="subtitle">Manage your email subscribers</p>
+        </div>
+        <div class="user-info">
+            <span>👤 @_userEmail</span>
+            <button @onclick="Logout" class="btn btn-logout">Logout</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>➕ Add New Subscriber</h2>
+
+        @if (!string.IsNullOrEmpty(_addMessage))
+        {
+            <div class="alert @(_addSuccess ? "alert-success" : "alert-danger")">
+                @_addMessage
+            </div>
+        }
+
+        <div class="add-form">
+            <input type="email"
+                   @bind="_newEmail"
+                   @bind:event="oninput"
+                   placeholder="subscriber@example.com"
+                   class="form-control" />
+            <button @onclick="AddSubscriber" class="btn btn-primary" disabled="@_isAddingSubscriber">
+                @if (_isAddingSubscriber)
+                {
+                    <span>Adding...</span>
+                }
+                else
+                {
+                    <span>➕ Add</span>
+                }
+            </button>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>📋 Subscribers (@_subscribers.Count)</h2>
+
+        @if (_isLoading)
+        {
+            <p class="loading">Loading subscribers...</p>
+        }
+        else if (!_subscribers.Any())
+        {
+            <p class="empty-state">No subscribers yet. Add your first subscriber above! 👆</p>
+        }
+        else
+        {
+            <div class="subscribers-list">
+                @foreach (var subscriber in _subscribers)
+                {
+                    <div class="subscriber-item">
+                        <div class="subscriber-info">
+                            <span class="email">📧 @subscriber.Email</span>
+                            <span class="date">Added: @subscriber.CreatedAt.ToString("yyyy-MM-dd HH:mm")</span>
+                        </div>
+                        <button @onclick="() => RemoveSubscriber(subscriber.Id)" class="btn btn-danger">
+                            🗑️ Remove
+                        </button>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .admin-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .admin-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 2px solid #eee;
+    }
+
+    .admin-header h1 {
+        margin: 0;
+        color: #333;
+    }
+
+    .subtitle {
+        color: #666;
+        margin: 5px 0 0 0;
+    }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .user-info span {
+        color: #666;
+        font-weight: 600;
+    }
+
+    .card {
+        background: white;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+
+    .card h2 {
+        margin-top: 0;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .add-form {
+        display: flex;
+        gap: 10px;
+    }
+
+    .add-form .form-control {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.3s;
+    }
+
+    .btn-primary {
+        background: #28a745;
+        color: white;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+        background: #218838;
+    }
+
+    .btn-primary:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .btn-danger {
+        background: #dc3545;
+        color: white;
+        font-size: 12px;
+        padding: 8px 15px;
+    }
+
+    .btn-danger:hover {
+        background: #c82333;
+    }
+
+    .btn-logout {
+        background: #6c757d;
+        color: white;
+    }
+
+    .btn-logout:hover {
+        background: #5a6268;
+    }
+
+    .alert {
+        padding: 12px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+    }
+
+    .alert-success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .alert-danger {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
+    .subscribers-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .subscriber-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 4px;
+        border-left: 4px solid #007bff;
+    }
+
+    .subscriber-info {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .email {
+        font-weight: 600;
+        color: #333;
+    }
+
+    .date {
+        font-size: 12px;
+        color: #666;
+    }
+
+    .loading, .empty-state {
+        text-align: center;
+        padding: 40px;
+        color: #666;
+        font-style: italic;
+    }
+</style>
+
+@code {
+    private List<Subscriber> _subscribers = new();
+    private string _newEmail = string.Empty;
+    private string _addMessage = string.Empty;
+    private bool _addSuccess = false;
+    private bool _isLoading = true;
+    private bool _isAddingSubscriber = false;
+    private string _userEmail = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Get authenticated user email
+        var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        _userEmail = authState.User.Identity?.Name ?? "Admin";
+
+        // Load subscribers
+        await LoadSubscribers();
+    }
+
+    private async Task LoadSubscribers()
+    {
+        _isLoading = true;
+        _subscribers = await SubscriberService.GetAllAsync();
+        _isLoading = false;
+    }
+
+    private async Task AddSubscriber()
+    {
+        _isAddingSubscriber = true;
+        _addMessage = string.Empty;
+
+        try
+        {
+            // Validate email not empty
+            if (string.IsNullOrWhiteSpace(_newEmail))
+            {
+                _addMessage = "Please enter an email address.";
+                _addSuccess = false;
+                return;
+            }
+
+            // Check if email already exists
+            if (await SubscriberService.EmailExistsAsync(_newEmail))
+            {
+                _addMessage = $"Email '{_newEmail}' is already subscribed.";
+                _addSuccess = false;
+                return;
+            }
+
+            // Add subscriber
+            var subscriber = await SubscriberService.AddSubscriberAsync(_newEmail);
+
+            if (subscriber == null)
+            {
+                _addMessage = "Invalid email format. Please enter a valid email address.";
+                _addSuccess = false;
+                return;
+            }
+
+            // Success!
+            _addMessage = $"✅ Successfully added {subscriber.Email}";
+            _addSuccess = true;
+            _newEmail = string.Empty;
+
+            // Reload list
+            await LoadSubscribers();
+        }
+        catch (Exception ex)
+        {
+            _addMessage = $"Error: {ex.Message}";
+            _addSuccess = false;
+        }
+        finally
+        {
+            _isAddingSubscriber = false;
+        }
+    }
+
+    private async Task RemoveSubscriber(int id)
+    {
+        var subscriber = _subscribers.FirstOrDefault(s => s.Id == id);
+        if (subscriber == null) return;
+
+        bool confirmed = await JSRuntime.InvokeAsync<bool>("confirm",
+            $"Are you sure you want to remove {subscriber.Email} from the mailing list?");
+
+        if (!confirmed) return;
+
+        bool removed = await SubscriberService.RemoveSubscriberAsync(id);
+
+        if (removed)
+        {
+            _addMessage = $"✅ Successfully removed {subscriber.Email}";
+            _addSuccess = true;
+            await LoadSubscribers();
+        }
+        else
+        {
+            _addMessage = "Failed to remove subscriber.";
+            _addSuccess = false;
+        }
+    }
+
+    private async Task Logout()
+    {
+        var authStateProvider = (CustomAuthStateProvider)AuthStateProvider;
+        authStateProvider.MarkUserAsLoggedOut();
+        await HttpContextAccessor.HttpContext!.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        Navigation.NavigateTo("/login", true);
+    }
+
+    [Inject]
+    private IJSRuntime JSRuntime { get; set; } = default!;
+}
